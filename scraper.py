@@ -1,11 +1,10 @@
 """
-EVO Buyback Tracker — Scraper
-Henter aktiekurs fra Yahoo Finance og opdaterer data.json + index.html.
+EVO Buyback Tracker — Scraper v2
+- Henter aktiekurs fra Yahoo Finance (fallback i data.json)
+- Scraper Evolution's pressemeddelser for nye buyback-trancher
+- HTML'en henter selv live kurs via JavaScript ved pageload
 
-Buyback-transaktioner vedligeholdes manuelt i data.json,
-da Evolution offentliggør dem som Cision PDF'er uden offentligt API.
-
-Kursdata opdateres automatisk via GitHub Actions (ons + fre).
+GitHub Actions kører dette dagligt.
 """
 
 import json
@@ -32,13 +31,12 @@ def fetch_yahoo_price(ticker: str = "EVO.ST") -> dict:
         prev_close = meta.get("chartPreviousClose", meta.get("previousClose", price))
         change = price - prev_close
         change_pct = (change / prev_close * 100) if prev_close else 0
-        currency = meta.get("currency", "SEK")
 
         return {
             "price": round(price, 2),
             "change": round(change, 2),
             "change_pct": round(change_pct, 2),
-            "currency": currency,
+            "currency": meta.get("currency", "SEK"),
             "timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         }
     except Exception as e:
@@ -46,12 +44,49 @@ def fetch_yahoo_price(ticker: str = "EVO.ST") -> dict:
         return None
 
 
+def scrape_buyback_releases() -> list:
+    """Scrape Evolution's pressemeddelsesside for buyback-trancher."""
+    url = "https://www.evolution.com/investors/press-releases/"
+    headers = {"User-Agent": "Mozilla/5.0"}
+
+    try:
+        r = requests.get(url, headers=headers, timeout=15)
+        r.raise_for_status()
+    except Exception as e:
+        print(f"Kunne ikke hente pressemeddelser: {e}")
+        return []
+
+    from bs4 import BeautifulSoup
+    soup = BeautifulSoup(r.text, "html.parser")
+
+    tranches = []
+    # Søg i al tekst på siden efter buyback-mønstre
+    page_text = soup.get_text()
+    
+    # Find alle "acquired a total of X own shares" med kontekst
+    pattern = r"(?:during the period\s+)(\d{1,2}\s+\w+)\s*[–\-]\s*(\d{1,2}\s+\w+).*?acquired a total of\s+([\d,]+)\s+own shares"
+    matches = re.findall(pattern, page_text, re.DOTALL | re.IGNORECASE)
+
+    for start, end, shares_str in matches:
+        shares = int(shares_str.replace(",", ""))
+        period = f"{start.strip()} – {end.strip()}"
+        tranches.append({
+            "period": period,
+            "shares": shares,
+            "eur_spent": None,
+            "note": "",
+            "source": "auto-scraped",
+        })
+
+    print(f"Fandt {len(tranches)} buyback-trancher fra pressemeddelser")
+    return tranches
+
+
 def load_data() -> dict:
     """Indlæs eksisterende data.json."""
     path = Path("data.json")
     if path.exists():
         return json.loads(path.read_text(encoding="utf-8"))
-    # Standard-data med kendte buyback-trancher
     return create_default_data()
 
 
@@ -75,7 +110,7 @@ def create_default_data() -> dict:
             "status": "completed",
         },
         "price": {
-            "value": 577.00,
+            "price": 577.00,
             "change": 0,
             "change_pct": 0,
             "currency": "SEK",
@@ -102,62 +137,27 @@ def create_default_data() -> dict:
     }
 
 
-def update_html(data: dict):
-    """Opdater kursdata i index.html."""
-    path = Path("index.html")
-    if not path.exists():
-        print("index.html ikke fundet — springer HTML-opdatering over")
-        return
+def merge_tranches(existing: list, scraped: list) -> list:
+    """Flet nye scrapede trancher ind — undgå dubletter baseret på antal aktier."""
+    existing_shares = {t["shares"] for t in existing}
+    new_count = 0
 
-    html = path.read_text(encoding="utf-8")
-    price_info = data["price"]
-    p = price_info["value"]
-    c = price_info["change"]
-    cp = price_info["change_pct"]
-    ts = price_info["timestamp"]
+    for tranche in scraped:
+        if tranche["shares"] not in existing_shares:
+            existing.append(tranche)
+            existing_shares.add(tranche["shares"])
+            new_count += 1
+            print(f"  Ny tranche: {tranche['period']} — {tranche['shares']:,} aktier")
 
-    # Opdater kursvisning
-    # Format: SEK xxx,xx
-    price_str = f"SEK {p:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-    html = re.sub(
-        r'<span class="price">SEK [\d.,]+</span>',
-        f'<span class="price">{price_str}</span>',
-        html
-    )
-
-    # Opdater kursændring
-    sign = "+" if c >= 0 else ""
-    change_class = "positive" if c >= 0 else "negative"
-    change_str = f"{sign}{c:,.2f} ({sign}{cp:.2f}%)".replace(",", "X").replace(".", ",").replace("X", ".")
-    html = re.sub(
-        r'<span class="price-change [^"]*">[^<]+</span>',
-        f'<span class="price-change {change_class}">{change_str}</span>',
-        html
-    )
-
-    # Opdater dato
-    html = re.sub(
-        r'<span class="price-date">[^<]+</span>',
-        f'<span class="price-date">{ts}</span>',
-        html
-    )
-
-    # Opdater footer-dato
-    now_str = datetime.now(timezone.utc).strftime("%d. %b %Y")
-    html = re.sub(
-        r'Sidst opdateret [^·]+·',
-        f'Sidst opdateret {now_str} ·',
-        html
-    )
-
-    path.write_text(html, encoding="utf-8")
-    print(f"HTML opdateret: {price_str} ({change_str})")
+    if new_count == 0:
+        print("  Ingen nye trancher fundet")
+    return existing
 
 
 def main():
     data = load_data()
 
-    # Hent seneste kurs
+    # 1. Hent seneste kurs (gemmes som fallback)
     price = fetch_yahoo_price()
     if price:
         data["price"] = price
@@ -165,18 +165,21 @@ def main():
     else:
         print("Kunne ikke hente kurs — beholder gammel værdi")
 
-    # Opdater timestamp
+    # 2. Scrape nye buyback-trancher
+    print("Scraper pressemeddelser...")
+    scraped = scrape_buyback_releases()
+    if scraped:
+        data["tranches"] = merge_tranches(data["tranches"], scraped)
+
+    # 3. Opdater timestamp
     data["meta"]["last_updated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
-    # Gem data.json
+    # 4. Gem data.json
     Path("data.json").write_text(
         json.dumps(data, indent=2, ensure_ascii=False),
         encoding="utf-8"
     )
     print("data.json gemt")
-
-    # Opdater HTML
-    update_html(data)
 
 
 if __name__ == "__main__":
