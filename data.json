@@ -1,0 +1,93 @@
+{
+  "meta": {
+    "company": "Evolution AB (publ)",
+    "ticker": "EVO.ST",
+    "exchange": "Nasdaq Stockholm",
+    "total_shares_issued": 211833204,
+    "shares_outstanding": 200840000,
+    "last_updated": "2026-03-25 12:16 UTC"
+  },
+  "programme": {
+    "name": "€500M Tilbagekøbsprogram",
+    "announced": "2025-02-10",
+    "completed": "2025-12-08",
+    "max_eur": 500000000,
+    "spent_eur": 500000000,
+    "status": "completed"
+  },
+  "price": {
+    "value": 577.0,
+    "change": 0,
+    "change_pct": 0,
+    "currency": "SEK",
+    "timestamp": "2026-03-21"
+  },
+  "tranches": [
+    {
+      "period": "Feb–Maj 2025 (2024 AGM)",
+      "shares": 2100081,
+      "eur_spent": 154000000,
+      "note": "Under gammelt mandat"
+    },
+    {
+      "period": "15 maj – 30 jun 2025",
+      "shares": 1115392,
+      "eur_spent": 65400000,
+      "note": "Tranche 1 under 2025 AGM"
+    },
+    {
+      "period": "1–5 sep 2025",
+      "shares": 377000,
+      "eur_spent": null,
+      "note": ""
+    },
+    {
+      "period": "22–25 sep 2025",
+      "shares": 129523,
+      "eur_spent": null,
+      "note": "Pause for Q3-rapport"
+    },
+    {
+      "period": "3–7 nov 2025",
+      "shares": 324409,
+      "eur_spent": null,
+      "note": ""
+    },
+    {
+      "period": "10–14 nov 2025",
+      "shares": 191629,
+      "eur_spent": null,
+      "note": ""
+    },
+    {
+      "period": "17–21 nov 2025",
+      "shares": 432000,
+      "eur_spent": null,
+      "note": ""
+    },
+    {
+      "period": "24–28 nov 2025",
+      "shares": 76000,
+      "eur_spent": null,
+      "note": ""
+    },
+    {
+      "period": "1–5 dec 2025",
+      "shares": 142000,
+      "eur_spent": null,
+      "note": ""
+    },
+    {
+      "period": "8 dec 2025",
+      "shares": 133140,
+      "eur_spent": null,
+      "note": "Program afsluttet"
+    }
+  ],
+  "capital_allocation_2026": {
+    "dividend_proposed": 0,
+    "note": "Bestyrelsen anbefaler intet udbytte for 2025",
+    "agm_date": "2026-04-24",
+    "new_buyback_mandate": "Afventer opdatering"
+  }
+}

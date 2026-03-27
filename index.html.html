@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evolution AB — Buyback Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Background layers */
+    --bg-primary: #0a0e17;
+    --bg-card: #111827;
+    --bg-card-hover: #161f33;
+    --bg-elevated: #1a2332;
+    --bg-input: #0d1220;
+
+    /* Text hierarchy — 4-level system */
+    --t1: #f8fafc;   /* Primary headlines */
+    --t2: #b0bac9;   /* Secondary labels */
+    --t3: #6b7a90;   /* Tertiary / muted */
+    --t4: #3d4a5c;   /* Quaternary / dividers */
+
+    /* Green spectrum for value metrics */
+    --g1: #4ade80;   /* Strong positive */
+    --g2: #22c55e;   /* Positive */
+    --g3: #16a34a;   /* Muted positive */
+    --g4: #15803d;   /* Subtle positive */
+
+    /* Accent colors */
+    --accent-blue: #3b82f6;
+    --accent-amber: #f59e0b;
+    --accent-red: #ef4444;
+    --accent-purple: #a78bfa;
+
+    /* Borders */
+    --border: #1e293b;
+    --border-hover: #334155;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--t2);
+    font-family: 'JetBrains Mono', monospace;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+  }
+  .header-top {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .ticker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--t1);
+    letter-spacing: -1px;
+  }
+  .company-name {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--t3);
+  }
+  .header-subtitle {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    color: var(--t4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .price {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--t1);
+  }
+  .price-change {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .price-change.negative { color: var(--accent-red); }
+  .price-change.positive { color: var(--g1); }
+  .price-date {
+    font-size: 11px;
+    color: var(--t4);
+  }
+
+  /* ── PROGRAMME STATUS BAR ── */
+  .programme-bar {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .programme-bar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .programme-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--t3);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .programme-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .status-paused {
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--accent-amber);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+  }
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-amber);
+    animation: pulse-dot 2s infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Progress bar */
+  .progress-track {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-input);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--g4), var(--g2), var(--g1));
+    transition: width 1s ease;
+  }
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+  }
+  .progress-spent {
+    color: var(--g2);
+    font-weight: 600;
+  }
+  .progress-total {
+    color: var(--t4);
+  }
+
+  /* ── METRICS GRID ── */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .metric-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    transition: border-color 0.2s;
+  }
+  .metric-card:hover {
+    border-color: var(--border-hover);
+    background: var(--bg-card-hover);
+  }
+  .metric-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--t4);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+  }
+  .metric-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--t1);
+    line-height: 1.2;
+  }
+  .metric-value.green { color: var(--g1); }
+  .metric-value.amber { color: var(--accent-amber); }
+  .metric-value.blue { color: var(--accent-blue); }
+  .metric-value.purple { color: var(--accent-purple); }
+  .metric-sub {
+    font-size: 11px;
+    color: var(--t3);
+    margin-top: 4px;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--t3);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 32px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── VÆRDISKABELSE MODEL ── */
+  .value-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .value-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+  }
+  .value-card-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--t2);
+    margin-bottom: 16px;
+  }
+  .value-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .value-row:last-child { border-bottom: none; }
+  .value-row-label {
+    font-size: 12px;
+    color: var(--t3);
+  }
+  .value-row-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--t1);
+  }
+  .value-row-value.positive { color: var(--g1); }
+  .value-row-value.negative { color: var(--accent-red); }
+  .value-row-value.highlight { color: var(--accent-blue); }
+
+  /* ── BUYBACK LOG TABLE ── */
+  .table-wrapper {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .table-scroll {
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  thead {
+    background: var(--bg-elevated);
+  }
+  th {
+    padding: 12px 16px;
+    text-align: left;
+    font-family: 'Outfit', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--t4);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border);
+  }
+  th.right, td.right { text-align: right; }
+  td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    color: var(--t2);
+  }
+  tr:hover td {
+    background: var(--bg-card-hover);
+  }
+  tr:last-child td {
+    border-bottom: none;
+  }
+  .td-green { color: var(--g2); font-weight: 600; }
+  .td-muted { color: var(--t4); }
+  .totals-row td {
+    font-weight: 700;
+    color: var(--t1);
+    border-top: 2px solid var(--t4);
+    background: var(--bg-elevated);
+  }
+
+  /* ── NOTES / FOOTER ── */
+  .notes {
+    margin-top: 32px;
+    padding: 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .notes-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--t3);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+  }
+  .notes p {
+    font-size: 12px;
+    color: var(--t4);
+    line-height: 1.8;
+    margin-bottom: 4px;
+  }
+  .notes a {
+    color: var(--accent-blue);
+    text-decoration: none;
+  }
+  .notes a:hover { text-decoration: underline; }
+
+  .footer {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 10px;
+    color: var(--t4);
+    letter-spacing: 1px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .container { padding: 16px 12px; }
+    .ticker { font-size: 24px; }
+    .price { font-size: 22px; }
+    .metric-value { font-size: 20px; }
+    .metrics-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .metric-card { padding: 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <span class="ticker">EVO</span>
+      <span class="company-name">Evolution AB (publ) — Nasdaq Stockholm</span>
+    </div>
+    <div class="header-subtitle">Buyback Tracker — €500M Programme</div>
+    <div class="price-row">
+      <span class="price">SEK 577,00</span>
+      <span class="price-change negative">−8,60 (−1,47%)</span>
+      <span class="price-date">21. mar 2026 · Intraday</span>
+    </div>
+  </div>
+
+  <!-- PROGRAMME STATUS -->
+  <div class="programme-bar">
+    <div class="programme-bar-header">
+      <span class="programme-label">€500M Tilbagekøbsprogram · feb 2025 – AGM 2026</span>
+      <span class="programme-status status-paused">
+        <span class="status-dot"></span>
+        Afventer 2026 kapitalallokering
+      </span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" style="width: 100%;"></div>
+    </div>
+    <div class="progress-labels">
+      <span class="progress-spent">€500M brugt · 100% fuldført</span>
+      <span class="progress-total">Program afsluttet 8. dec 2025</span>
+    </div>
+  </div>
+
+  <!-- KEY METRICS -->
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-label">Samlede tilbagekøb (2025)</div>
+      <div class="metric-value green">~€500M</div>
+      <div class="metric-sub">≈ SEK 5,7 mia. · program fuldført</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Aktier tilbagekøbt (2025)</div>
+      <div class="metric-value">~7,90M</div>
+      <div class="metric-sub">~3,7% af udst. aktier (211,8M)</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Udst. aktier (ultimo 2025)</div>
+      <div class="metric-value blue">200,8M</div>
+      <div class="metric-sub">Ned fra 211,8M · −5,2% YoY</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Buyback Yield (TTM)</div>
+      <div class="metric-value green">4,55%</div>
+      <div class="metric-sub">+ udbytte EUR 2,80/aktie (2024)</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Total aktionæraflønning 2025</div>
+      <div class="metric-value green">~€1,1 mia.</div>
+      <div class="metric-sub">9,3% yield på ultimo-markedsværdi</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">2026 Udbytte</div>
+      <div class="metric-value amber">€0,00</div>
+      <div class="metric-sub">Bestyrelsen anbefaler intet udbytte</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Gns. tilbagekøbskurs</div>
+      <div class="metric-value">~SEK 680</div>
+      <div class="metric-sub">€500M / ~7,9M aktier · estimat</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Nuv. kurs vs. BB-kurs</div>
+      <div class="metric-value green">−15,1%</div>
+      <div class="metric-sub">577 vs. ~680 · rabat til cost basis</div>
+    </div>
+  </div>
+
+  <!-- VÆRDISKABELSE MODEL -->
+  <div class="section-header">Værdiskabelse — Net Buyback Model</div>
+  <div class="value-grid">
+
+    <div class="value-card">
+      <div class="value-card-title">FCF Yield & Kapacitet</div>
+      <div class="value-row">
+        <span class="value-row-label">EBITDA 2025</span>
+        <span class="value-row-value">€1.457M</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">EBITDA-margin</span>
+        <span class="value-row-value">~66%</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">CapEx 2025</span>
+        <span class="value-row-value">€135M</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">Est. FCF 2025</span>
+        <span class="value-row-value positive">~€1.050M</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">FCF Yield (markedsværdi)</span>
+        <span class="value-row-value positive">~9,1%</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">Markedsværdi (nu)</span>
+        <span class="value-row-value">SEK 115 mia.</span>
+      </div>
+    </div>
+
+    <div class="value-card">
+      <div class="value-card-title">EPS-Accretion (Annulleringseffekt)</div>
+      <div class="value-row">
+        <span class="value-row-label">EPS 2025 (rapporteret)</span>
+        <span class="value-row-value">€5,23</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">Udst. aktier (ultimo 2025)</span>
+        <span class="value-row-value">200,8M</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">Tilbagekøbte aktier (2025)</span>
+        <span class="value-row-value">~7,9M</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">EPS-løft ved annullering</span>
+        <span class="value-row-value positive">+4,1%</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">Indre værdi-effekt / aktie</span>
+        <span class="value-row-value positive">Positiv</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">SBC-udvanding (est.)</span>
+        <span class="value-row-value negative">~0,3–0,5%</span>
+      </div>
+    </div>
+
+    <div class="value-card">
+      <div class="value-card-title">Net Buyback (Buyback − SBC)</div>
+      <div class="value-row">
+        <span class="value-row-label">Brutto-tilbagekøb 2025</span>
+        <span class="value-row-value">~7,9M aktier</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">SBC-udvanding (est.)</span>
+        <span class="value-row-value negative">~0,6–1,0M aktier</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">Netto reduktion</span>
+        <span class="value-row-value positive">~6,9–7,3M aktier</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">Netto buyback yield</span>
+        <span class="value-row-value positive">~3,4–3,6%</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">Shares outstanding (YoY Δ)</span>
+        <span class="value-row-value positive">−5,2%</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">Kumulativ reduktion (3 år)</span>
+        <span class="value-row-value highlight">~15%</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BUYBACK PROGRAMME TIMELINE -->
+  <div class="section-header">Tilbagekøbshistorik — Programmer</div>
+  <div class="table-wrapper">
+    <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Program</th>
+          <th>Annonceret</th>
+          <th>Afsluttet</th>
+          <th class="right">Maks. beløb</th>
+          <th class="right">Aktier købt</th>
+          <th class="right">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2023 AGM-mandat</td>
+          <td>Nov 2023</td>
+          <td>Jul 2024</td>
+          <td class="right">€400M</td>
+          <td class="right">~4,48M</td>
+          <td class="right td-green">Fuldført</td>
+        </tr>
+        <tr>
+          <td>2024 AGM-mandat I</td>
+          <td>Jul 2024</td>
+          <td>Okt 2024</td>
+          <td class="right">€400M</td>
+          <td class="right">~4,48M</td>
+          <td class="right td-green">Fuldført</td>
+        </tr>
+        <tr>
+          <td>2024 AGM-mandat II</td>
+          <td>Feb 2025</td>
+          <td>Maj 2025</td>
+          <td class="right">€500M (€154M brugt)</td>
+          <td class="right">2,10M</td>
+          <td class="right td-green">Videreført</td>
+        </tr>
+        <tr>
+          <td>2025 AGM-mandat</td>
+          <td>Maj 2025</td>
+          <td>Dec 2025</td>
+          <td class="right">€346M (rest)</td>
+          <td class="right">~5,80M</td>
+          <td class="right td-green">Fuldført</td>
+        </tr>
+        <tr class="totals-row">
+          <td>Total €500M-program</td>
+          <td>Feb 2025</td>
+          <td>8. dec 2025</td>
+          <td class="right">€500M</td>
+          <td class="right">~7,90M</td>
+          <td class="right" style="color: var(--g1);">Fuldført</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- WEEKLY BUYBACK LOG (latest known tranches) -->
+  <div class="section-header">Ugentlige tilbagekøb — Seneste trancher (Q4 2025)</div>
+  <div class="table-wrapper">
+    <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Periode</th>
+          <th class="right">Antal aktier</th>
+          <th class="right">Kumulativ beholdning</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>3–7 nov 2025</td>
+          <td class="right">324.409</td>
+          <td class="right td-muted">—</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>10–14 nov 2025</td>
+          <td class="right">191.629</td>
+          <td class="right td-muted">—</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>17–21 nov 2025</td>
+          <td class="right">432.000</td>
+          <td class="right td-muted">—</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>24–28 nov 2025</td>
+          <td class="right">76.000</td>
+          <td class="right td-muted">—</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>1–5 dec 2025</td>
+          <td class="right">142.000</td>
+          <td class="right td-muted">—</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>8 dec 2025</td>
+          <td class="right">133.140</td>
+          <td class="right td-muted">—</td>
+          <td style="color: var(--accent-amber);">Program afsluttet</td>
+        </tr>
+        <tr>
+          <td>1–5 sep 2025</td>
+          <td class="right">377.000</td>
+          <td class="right td-muted">—</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>22–25 sep 2025</td>
+          <td class="right">129.523</td>
+          <td class="right">3.617.371</td>
+          <td style="color: var(--t3);">Pause for Q3-rapport</td>
+        </tr>
+        <tr>
+          <td>15 maj – 30 jun 2025</td>
+          <td class="right">1.115.392</td>
+          <td class="right td-muted">—</td>
+          <td style="color: var(--t3);">€65,4M · Tranche 1</td>
+        </tr>
+        <tr>
+          <td>Feb – maj 2025 (2024 AGM)</td>
+          <td class="right">2.100.081</td>
+          <td class="right td-muted">—</td>
+          <td style="color: var(--t3);">€154M under gammel mandat</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- 2026 OUTLOOK -->
+  <div class="section-header">2026 Kapitalallokering — Status</div>
+  <div class="value-grid">
+    <div class="value-card">
+      <div class="value-card-title">Bestyrelsens beslutning (18. mar 2026)</div>
+      <div class="value-row">
+        <span class="value-row-label">Udbytte for 2025</span>
+        <span class="value-row-value negative">€0 · Intet udbytte foreslået</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">Afvigelse fra rammeværk</span>
+        <span class="value-row-value" style="color: var(--accent-amber);">Ja — normalt ≥50% af nettooverskud</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">Begrundelse</span>
+        <span class="value-row-value" style="color: var(--t3); font-size: 11px;">"Udbytte er ikke den bedste vej til aktionærværdi"</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">AGM 2026</span>
+        <span class="value-row-value highlight">24. april 2026</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">Forventet nyt tilbagekøbsmandat</span>
+        <span class="value-row-value" style="color: var(--accent-amber);">Afventer opdatering</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">EBITDA-margin-guidning 2026</span>
+        <span class="value-row-value">~66% (i linje med 2025)</span>
+      </div>
+    </div>
+
+    <div class="value-card">
+      <div class="value-card-title">Potentielt 2026-scenarie</div>
+      <div class="value-row">
+        <span class="value-row-label">Forventet FCF 2026</span>
+        <span class="value-row-value positive">~€1.050–1.150M</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">Sparet udbytte</span>
+        <span class="value-row-value positive">~€560M</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">Samlet buyback-kapacitet</span>
+        <span class="value-row-value positive">€1.600M+</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">Potentiel aktie-reduktion</span>
+        <span class="value-row-value positive">~12–15M aktier</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">Potentiel annullerings-EPS-boost</span>
+        <span class="value-row-value positive">+6–8%</span>
+      </div>
+      <div class="value-row">
+        <span class="value-row-label">Galaxy Gaming M&A</span>
+        <span class="value-row-value" style="color: var(--accent-amber);">Afventer regulatorisk godkendelse</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTES -->
+  <div class="notes">
+    <div class="notes-title">Kilder & Metodik</div>
+    <p>• Tilbagekøbsdata fra <a href="https://www.evolution.com/investors/press-releases/" target="_blank">evolution.com/investors/press-releases</a> + <a href="https://news.cision.com" target="_blank">Cision</a></p>
+    <p>• Kursdata fra Nasdaq Stockholm via Yahoo Finance / Bloomberg</p>
+    <p>• Værdiskabelsesmodel: FCF yield (primær), EPS-accretion via annulleringseffekt (sekundær), net buyback = buyback − SBC</p>
+    <p>• SBC-estimat baseret på incitamentsprogrammer (konservativt ~0,3–0,5% årlig udvanding)</p>
+    <p>• €500M program annonceret 10. feb 2025 · €154M under 2024 AGM-mandat · €346M under 2025 AGM-mandat · Afsluttet 8. dec 2025</p>
+    <p>• 18. mar 2026: Bestyrelsen foreslår intet udbytte for 2025 — afviger fra kapitalrammeværk. Opdatering ventes.</p>
+    <p>• Kumulativ aktie-reduktion 2023–2025: ~15% (211,8M → ~200,8M udestående)</p>
+  </div>
+
+  <div class="footer">
+    EVOLUTION AB BUYBACK TRACKER · Sidst opdateret 21. mar 2026 · Ikke investeringsrådgivning
+  </div>
+
+</div>
+</body>
+</html>
