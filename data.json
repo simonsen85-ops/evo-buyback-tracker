@@ -5,7 +5,7 @@
     "exchange": "Nasdaq Stockholm",
     "total_shares_issued": 211833204,
     "shares_outstanding": 200840000,
-    "last_updated": "2026-03-27 16:46 UTC"
+    "last_updated": "2026-03-30 16:59 UTC"
   },
   "programme": {
     "name": "€500M Tilbagekøbsprogram",
@@ -16,11 +16,11 @@
     "status": "completed"
   },
   "price": {
-    "price": 551.4,
-    "change": -35.0,
-    "change_pct": -5.97,
+    "price": 573.8,
+    "change": -11.0,
+    "change_pct": -1.88,
     "currency": "SEK",
-    "timestamp": "2026-03-27 16:46 UTC"
+    "timestamp": "2026-03-30 16:59 UTC"
   },
   "tranches": [
     {
