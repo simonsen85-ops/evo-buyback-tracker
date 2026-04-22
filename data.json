@@ -108,8 +108,2280 @@
   ],
   "currency": "SEK",
   "program_currency": "EUR",
-  "announcements": [],
-  "last_updated": "2026-04-22T10:26:16.485860+00:00",
+  "announcements": [
+    {
+      "uid": "evo-nasdaq-1364097",
+      "announcement_date": "2025-05-19",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b51b248e921f8f096a795c35cc2252023&lang=en&src=listed",
+      "period_start": "2025-05-15",
+      "period_end": "2025-05-16",
+      "week_shares": 135000,
+      "week_amount": 90472346,
+      "week_avg_price": 670.17,
+      "acc_shares": 135000,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-05-15",
+          "shares": 100000,
+          "price": 670.78,
+          "amount": 67077590
+        },
+        {
+          "date": "2025-05-16",
+          "shares": 35000,
+          "price": 668.42,
+          "amount": 23394756
+        }
+      ],
+      "market_volume": 1379702,
+      "max_allowed_week": 495905,
+      "daily_volume_detail": [
+        {
+          "date": "2025-05-15",
+          "day_volume": 637067,
+          "avg_20d": 988864,
+          "max_allowed": 247216,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-05-16",
+          "day_volume": 742635,
+          "avg_20d": 994756,
+          "max_allowed": 248689,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 991810,
+      "buyback_pct_of_volume": 9.8,
+      "utilization_pct": 27.2
+    },
+    {
+      "uid": "evo-nasdaq-1365603",
+      "announcement_date": "2025-05-26",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b6723a60cad13183a166dbaf45096a2e3&lang=en&src=listed",
+      "period_start": "2025-05-19",
+      "period_end": "2025-05-23",
+      "week_shares": 259000,
+      "week_amount": 168850974,
+      "week_avg_price": 651.93,
+      "acc_shares": 394000,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-05-19",
+          "shares": 40000,
+          "price": 650.69,
+          "amount": 26027580
+        },
+        {
+          "date": "2025-05-20",
+          "shares": 37000,
+          "price": 658.21,
+          "amount": 24353910
+        },
+        {
+          "date": "2025-05-21",
+          "shares": 58000,
+          "price": 655.44,
+          "amount": 38015450
+        },
+        {
+          "date": "2025-05-22",
+          "shares": 60000,
+          "price": 650.57,
+          "amount": 39033900
+        },
+        {
+          "date": "2025-05-23",
+          "shares": 64000,
+          "price": 647.19,
+          "amount": 41420134
+        }
+      ],
+      "market_volume": 3498876,
+      "max_allowed_week": 1277350,
+      "daily_volume_detail": [
+        {
+          "date": "2025-05-19",
+          "day_volume": 900732,
+          "avg_20d": 1007016,
+          "max_allowed": 251754,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-05-20",
+          "day_volume": 609693,
+          "avg_20d": 1013802,
+          "max_allowed": 253451,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-05-21",
+          "day_volume": 627373,
+          "avg_20d": 1027666,
+          "max_allowed": 256917,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-05-22",
+          "day_volume": 639791,
+          "avg_20d": 1030511,
+          "max_allowed": 257628,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-05-23",
+          "day_volume": 721287,
+          "avg_20d": 1030401,
+          "max_allowed": 257600,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 1021879,
+      "buyback_pct_of_volume": 7.4,
+      "utilization_pct": 20.3
+    },
+    {
+      "uid": "evo-nasdaq-1366837",
+      "announcement_date": "2025-06-02",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b79110b323b3366732aa86970084fc231&lang=en&src=listed",
+      "period_start": "2025-05-26",
+      "period_end": "2025-05-30",
+      "week_shares": 202847,
+      "week_amount": 132637258,
+      "week_avg_price": 653.88,
+      "acc_shares": 596847,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-05-26",
+          "shares": 58000,
+          "price": 648.81,
+          "amount": 37630724
+        },
+        {
+          "date": "2025-05-27",
+          "shares": 48000,
+          "price": 655.42,
+          "amount": 31460227
+        },
+        {
+          "date": "2025-05-28",
+          "shares": 47847,
+          "price": 654.42,
+          "amount": 31312196
+        },
+        {
+          "date": "2025-05-30",
+          "shares": 49000,
+          "price": 657.84,
+          "amount": 32234111
+        }
+      ],
+      "market_volume": 3069085,
+      "max_allowed_week": 1042091,
+      "daily_volume_detail": [
+        {
+          "date": "2025-05-26",
+          "day_volume": 384192,
+          "avg_20d": 1044808,
+          "max_allowed": 261202,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-05-27",
+          "day_volume": 571798,
+          "avg_20d": 1036630,
+          "max_allowed": 259157,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-05-28",
+          "day_volume": 313352,
+          "avg_20d": 1049297,
+          "max_allowed": 262324,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-05-30",
+          "day_volume": 1799743,
+          "avg_20d": 1037633,
+          "max_allowed": 259408,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 1042092,
+      "buyback_pct_of_volume": 6.6,
+      "utilization_pct": 19.5
+    },
+    {
+      "uid": "evo-nasdaq-1367997",
+      "announcement_date": "2025-06-09",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=bc166ea1d07d9e4657d7933a453256066&lang=en&src=listed",
+      "period_start": "2025-06-02",
+      "period_end": "2025-06-05",
+      "week_shares": 217000,
+      "week_amount": 140775420,
+      "week_avg_price": 648.73,
+      "acc_shares": 813847,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-06-02",
+          "shares": 65000,
+          "price": 647.98,
+          "amount": 42118401
+        },
+        {
+          "date": "2025-06-03",
+          "shares": 65000,
+          "price": 646.05,
+          "amount": 41992977
+        },
+        {
+          "date": "2025-06-04",
+          "shares": 50000,
+          "price": 650.76,
+          "amount": 32537900
+        },
+        {
+          "date": "2025-06-05",
+          "shares": 37000,
+          "price": 652.06,
+          "amount": 24126142
+        }
+      ],
+      "market_volume": 2901220,
+      "max_allowed_week": 871271,
+      "daily_volume_detail": [
+        {
+          "date": "2025-06-02",
+          "day_volume": 1018234,
+          "avg_20d": 941389,
+          "max_allowed": 235347,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-06-03",
+          "day_volume": 642925,
+          "avg_20d": 861955,
+          "max_allowed": 215489,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-06-04",
+          "day_volume": 646374,
+          "avg_20d": 847586,
+          "max_allowed": 211896,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-06-05",
+          "day_volume": 593687,
+          "avg_20d": 834155,
+          "max_allowed": 208539,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 871271,
+      "buyback_pct_of_volume": 7.5,
+      "utilization_pct": 24.9
+    },
+    {
+      "uid": "evo-nasdaq-1370758",
+      "announcement_date": "2025-06-16",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=bd63b81a9f2fa749883893b41a053b460&lang=en&src=listed",
+      "period_start": "2025-06-09",
+      "period_end": "2025-06-13",
+      "week_shares": 98045,
+      "week_amount": 64872004,
+      "week_avg_price": 661.66,
+      "acc_shares": 911892,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-06-09",
+          "shares": 41000,
+          "price": 657.89,
+          "amount": 26973494
+        },
+        {
+          "date": "2025-06-10",
+          "shares": 31000,
+          "price": 660.58,
+          "amount": 20478048
+        },
+        {
+          "date": "2025-06-11",
+          "shares": 19700,
+          "price": 668.1,
+          "amount": 13161664
+        },
+        {
+          "date": "2025-06-12",
+          "shares": 1500,
+          "price": 671.96,
+          "amount": 1007941
+        },
+        {
+          "date": "2025-09-13",
+          "shares": 4845,
+          "price": 670.97,
+          "amount": 3250857
+        }
+      ],
+      "market_volume": 3053399,
+      "max_allowed_week": 943293,
+      "daily_volume_detail": [
+        {
+          "date": "2025-06-09",
+          "day_volume": 467562,
+          "avg_20d": 801086,
+          "max_allowed": 200272,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-06-10",
+          "day_volume": 481816,
+          "avg_20d": 770213,
+          "max_allowed": 192553,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-06-11",
+          "day_volume": 912099,
+          "avg_20d": 752037,
+          "max_allowed": 188009,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-06-12",
+          "day_volume": 632081,
+          "avg_20d": 732726,
+          "max_allowed": 183182,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-06-13",
+          "day_volume": 559841,
+          "avg_20d": 717107,
+          "max_allowed": 179277,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 754634,
+      "buyback_pct_of_volume": 3.2,
+      "utilization_pct": 10.4
+    },
+    {
+      "uid": "evo-nasdaq-1372951",
+      "announcement_date": "2025-06-23",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b6736c9b04a8766de3c9419e966081920&lang=en&src=listed",
+      "period_start": "2025-06-16",
+      "period_end": "2025-06-19",
+      "week_shares": 49500,
+      "week_amount": 34934992,
+      "week_avg_price": 705.76,
+      "acc_shares": 961392,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-06-16",
+          "shares": 1500,
+          "price": 707.13,
+          "amount": 1060693
+        },
+        {
+          "date": "2025-06-17",
+          "shares": 1000,
+          "price": 723.24,
+          "amount": 723241
+        },
+        {
+          "date": "2025-06-18",
+          "shares": 10000,
+          "price": 710.98,
+          "amount": 7109826
+        },
+        {
+          "date": "2025-06-19",
+          "shares": 37000,
+          "price": 703.82,
+          "amount": 26041232
+        }
+      ],
+      "market_volume": 4479553,
+      "max_allowed_week": 726544,
+      "daily_volume_detail": [
+        {
+          "date": "2025-06-16",
+          "day_volume": 1478989,
+          "avg_20d": 695114,
+          "max_allowed": 173779,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-06-17",
+          "day_volume": 899127,
+          "avg_20d": 737210,
+          "max_allowed": 184303,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-06-18",
+          "day_volume": 576292,
+          "avg_20d": 745035,
+          "max_allowed": 186259,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-06-19",
+          "day_volume": 1525145,
+          "avg_20d": 728813,
+          "max_allowed": 182203,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 726543,
+      "buyback_pct_of_volume": 1.1,
+      "utilization_pct": 6.8
+    },
+    {
+      "uid": "evo-nasdaq-1374195",
+      "announcement_date": "2025-06-30",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=bae735d3fc5f60c4538f59581ef98f17b&lang=en&src=listed",
+      "period_start": "2025-06-23",
+      "period_end": "2025-06-27",
+      "week_shares": 133000,
+      "week_amount": 95500399,
+      "week_avg_price": 718.05,
+      "acc_shares": 1094392,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-06-23",
+          "shares": 41000,
+          "price": 699.61,
+          "amount": 28684030
+        },
+        {
+          "date": "2025-06-24",
+          "shares": 20000,
+          "price": 718.42,
+          "amount": 14368352
+        },
+        {
+          "date": "2025-06-25",
+          "shares": 35000,
+          "price": 722.17,
+          "amount": 25275953
+        },
+        {
+          "date": "2025-06-26",
+          "shares": 19000,
+          "price": 727.96,
+          "amount": 13831154
+        },
+        {
+          "date": "2025-06-27",
+          "shares": 18000,
+          "price": 741.16,
+          "amount": 13340910
+        }
+      ],
+      "market_volume": 3034680,
+      "max_allowed_week": 971759,
+      "daily_volume_detail": [
+        {
+          "date": "2025-06-23",
+          "day_volume": 750488,
+          "avg_20d": 774585,
+          "max_allowed": 193646,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-06-24",
+          "day_volume": 551137,
+          "avg_20d": 780741,
+          "max_allowed": 195185,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-06-25",
+          "day_volume": 722771,
+          "avg_20d": 776308,
+          "max_allowed": 194077,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-06-26",
+          "day_volume": 436964,
+          "avg_20d": 776383,
+          "max_allowed": 194096,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-06-27",
+          "day_volume": 573320,
+          "avg_20d": 779021,
+          "max_allowed": 194755,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 777408,
+      "buyback_pct_of_volume": 4.4,
+      "utilization_pct": 13.7
+    },
+    {
+      "uid": "evo-nasdaq-1376600",
+      "announcement_date": "2025-07-07",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=bb36b00a46f8b8f0a49aebd911213e14a&lang=en&src=listed",
+      "period_start": "2025-06-30",
+      "period_end": "2025-07-04",
+      "week_shares": 145000,
+      "week_amount": 110495018,
+      "week_avg_price": 762.03,
+      "acc_shares": 1239392,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-06-30",
+          "shares": 21000,
+          "price": 752.19,
+          "amount": 15795994
+        },
+        {
+          "date": "2025-07-01",
+          "shares": 22000,
+          "price": 757.48,
+          "amount": 16664661
+        },
+        {
+          "date": "2025-07-02",
+          "shares": 25000,
+          "price": 767.51,
+          "amount": 19187692
+        },
+        {
+          "date": "2025-07-03",
+          "shares": 28000,
+          "price": 770.62,
+          "amount": 21577379
+        },
+        {
+          "date": "2025-07-04",
+          "shares": 49000,
+          "price": 760.6,
+          "amount": 37269292
+        }
+      ],
+      "market_volume": 2916350,
+      "max_allowed_week": 947334,
+      "daily_volume_detail": [
+        {
+          "date": "2025-06-30",
+          "day_volume": 1001166,
+          "avg_20d": 779097,
+          "max_allowed": 194774,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-07-01",
+          "day_volume": 545589,
+          "avg_20d": 813488,
+          "max_allowed": 203372,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-07-02",
+          "day_volume": 552206,
+          "avg_20d": 750780,
+          "max_allowed": 187695,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-07-03",
+          "day_volume": 463187,
+          "avg_20d": 727479,
+          "max_allowed": 181870,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-07-04",
+          "day_volume": 354202,
+          "avg_20d": 718492,
+          "max_allowed": 179623,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 757867,
+      "buyback_pct_of_volume": 5.0,
+      "utilization_pct": 15.3
+    },
+    {
+      "uid": "evo-nasdaq-1377679",
+      "announcement_date": "2025-07-14",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b21650c5d2d63692588d248bdb16c6a34&lang=en&src=listed",
+      "period_start": "2025-07-07",
+      "period_end": "2025-07-11",
+      "week_shares": 195700,
+      "week_amount": 149189027,
+      "week_avg_price": 762.34,
+      "acc_shares": 1435092,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-07-07",
+          "shares": 42700,
+          "price": 754.45,
+          "amount": 32215185
+        },
+        {
+          "date": "2025-07-08",
+          "shares": 42000,
+          "price": 752.56,
+          "amount": 31607448
+        },
+        {
+          "date": "2025-07-09",
+          "shares": 33000,
+          "price": 765.44,
+          "amount": 25259529
+        },
+        {
+          "date": "2025-07-10",
+          "shares": 39000,
+          "price": 767.62,
+          "amount": 29937230
+        },
+        {
+          "date": "2025-07-11",
+          "shares": 39000,
+          "price": 773.58,
+          "amount": 30169635
+        }
+      ],
+      "market_volume": 2320295,
+      "max_allowed_week": 863765,
+      "daily_volume_detail": [
+        {
+          "date": "2025-07-07",
+          "day_volume": 362455,
+          "avg_20d": 703883,
+          "max_allowed": 175971,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-07-08",
+          "day_volume": 503376,
+          "avg_20d": 692322,
+          "max_allowed": 173080,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-07-09",
+          "day_volume": 422320,
+          "avg_20d": 694113,
+          "max_allowed": 173528,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-07-10",
+          "day_volume": 561532,
+          "avg_20d": 691138,
+          "max_allowed": 172784,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-07-11",
+          "day_volume": 470612,
+          "avg_20d": 673609,
+          "max_allowed": 168402,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 691013,
+      "buyback_pct_of_volume": 8.4,
+      "utilization_pct": 22.7
+    },
+    {
+      "uid": "evo-nasdaq-1380129",
+      "announcement_date": "2025-07-21",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b16cb12c79d7dce087b7e1c0da77e615a&lang=en&src=listed",
+      "period_start": "2025-07-14",
+      "period_end": "2025-07-16",
+      "week_shares": 130389,
+      "week_amount": 100529993,
+      "week_avg_price": 771.0,
+      "acc_shares": 1565481,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-07-14",
+          "shares": 39000,
+          "price": 764.41,
+          "amount": 29812153
+        },
+        {
+          "date": "2025-07-15",
+          "shares": 48750,
+          "price": 773.03,
+          "amount": 37684998
+        },
+        {
+          "date": "2025-07-16",
+          "shares": 42639,
+          "price": 774.71,
+          "amount": 33032842
+        }
+      ],
+      "market_volume": 1530268,
+      "max_allowed_week": 484739,
+      "daily_volume_detail": [
+        {
+          "date": "2025-07-14",
+          "day_volume": 506237,
+          "avg_20d": 665536,
+          "max_allowed": 166384,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-07-15",
+          "day_volume": 433130,
+          "avg_20d": 662856,
+          "max_allowed": 165714,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-07-16",
+          "day_volume": 590901,
+          "avg_20d": 610563,
+          "max_allowed": 152641,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 646318,
+      "buyback_pct_of_volume": 8.5,
+      "utilization_pct": 26.9
+    },
+    {
+      "uid": "evo-nasdaq-1380928",
+      "announcement_date": "2025-07-28",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=ba7182aef9e59b032ce7e4d6461239aea&lang=en&src=listed",
+      "period_start": "2025-07-21",
+      "period_end": "2025-07-25",
+      "week_shares": 171000,
+      "week_amount": 145272200,
+      "week_avg_price": 849.55,
+      "acc_shares": 171000,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-07-21",
+          "shares": 35000,
+          "price": 838.14,
+          "amount": 29334998
+        },
+        {
+          "date": "2025-07-22",
+          "shares": 28000,
+          "price": 837.52,
+          "amount": 23450674
+        },
+        {
+          "date": "2025-07-23",
+          "shares": 36000,
+          "price": 846.56,
+          "amount": 30476026
+        },
+        {
+          "date": "2025-07-24",
+          "shares": 35000,
+          "price": 856.72,
+          "amount": 29985123
+        },
+        {
+          "date": "2025-07-25",
+          "shares": 37000,
+          "price": 865.55,
+          "amount": 32025379
+        }
+      ],
+      "market_volume": 3458235,
+      "max_allowed_week": 806084,
+      "daily_volume_detail": [
+        {
+          "date": "2025-07-21",
+          "day_volume": 870282,
+          "avg_20d": 639012,
+          "max_allowed": 159753,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-07-22",
+          "day_volume": 469701,
+          "avg_20d": 645001,
+          "max_allowed": 161250,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-07-23",
+          "day_volume": 691809,
+          "avg_20d": 640929,
+          "max_allowed": 160232,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-07-24",
+          "day_volume": 849674,
+          "avg_20d": 639381,
+          "max_allowed": 159845,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-07-25",
+          "day_volume": 576769,
+          "avg_20d": 660017,
+          "max_allowed": 165004,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 644868,
+      "buyback_pct_of_volume": 4.9,
+      "utilization_pct": 21.2
+    },
+    {
+      "uid": "evo-nasdaq-1381699",
+      "announcement_date": "2025-08-04",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b2436467fbda25eca58a9ac17531b8a0c&lang=en&src=listed",
+      "period_start": "2025-07-28",
+      "period_end": "2025-08-01",
+      "week_shares": 173767,
+      "week_amount": 151919812,
+      "week_avg_price": 874.27,
+      "acc_shares": 344767,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-07-28",
+          "shares": 30000,
+          "price": 874.3,
+          "amount": 26228901
+        },
+        {
+          "date": "2025-07-29",
+          "shares": 25809,
+          "price": 880.8,
+          "amount": 22732613
+        },
+        {
+          "date": "2025-07-30",
+          "shares": 44000,
+          "price": 878.16,
+          "amount": 38639004
+        },
+        {
+          "date": "2025-07-31",
+          "shares": 35000,
+          "price": 874.3,
+          "amount": 30600475
+        },
+        {
+          "date": "2025-08-01",
+          "shares": 38958,
+          "price": 865.52,
+          "amount": 33718819
+        }
+      ],
+      "market_volume": 2879835,
+      "max_allowed_week": 809542,
+      "daily_volume_detail": [
+        {
+          "date": "2025-07-28",
+          "day_volume": 734821,
+          "avg_20d": 660189,
+          "max_allowed": 165047,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-07-29",
+          "day_volume": 450162,
+          "avg_20d": 646872,
+          "max_allowed": 161718,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-07-30",
+          "day_volume": 560763,
+          "avg_20d": 642101,
+          "max_allowed": 160525,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-07-31",
+          "day_volume": 542229,
+          "avg_20d": 642528,
+          "max_allowed": 160632,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-08-01",
+          "day_volume": 591860,
+          "avg_20d": 646481,
+          "max_allowed": 161620,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 647634,
+      "buyback_pct_of_volume": 6.0,
+      "utilization_pct": 21.5
+    },
+    {
+      "uid": "evo-nasdaq-1382615",
+      "announcement_date": "2025-08-11",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b14c7f84ae6e89a9b5eb229e8f1180a14&lang=en&src=listed",
+      "period_start": "2025-08-04",
+      "period_end": "2025-08-08",
+      "week_shares": 169600,
+      "week_amount": 147180643,
+      "week_avg_price": 867.81,
+      "acc_shares": 514367,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-08-04",
+          "shares": 40000,
+          "price": 861.58,
+          "amount": 34463076
+        },
+        {
+          "date": "2025-08-05",
+          "shares": 35000,
+          "price": 866.05,
+          "amount": 30311711
+        },
+        {
+          "date": "2025-08-06",
+          "shares": 35600,
+          "price": 865.46,
+          "amount": 30810397
+        },
+        {
+          "date": "2025-08-07",
+          "shares": 28000,
+          "price": 872.48,
+          "amount": 24429459
+        },
+        {
+          "date": "2025-08-08",
+          "shares": 31000,
+          "price": 876.32,
+          "amount": 27166000
+        }
+      ],
+      "market_volume": 1657923,
+      "max_allowed_week": 805702,
+      "daily_volume_detail": [
+        {
+          "date": "2025-08-04",
+          "day_volume": 260695,
+          "avg_20d": 658364,
+          "max_allowed": 164591,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-08-05",
+          "day_volume": 312171,
+          "avg_20d": 653276,
+          "max_allowed": 163319,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-08-06",
+          "day_volume": 319311,
+          "avg_20d": 643715,
+          "max_allowed": 160929,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-08-07",
+          "day_volume": 367961,
+          "avg_20d": 638565,
+          "max_allowed": 159641,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-08-08",
+          "day_volume": 397785,
+          "avg_20d": 628886,
+          "max_allowed": 157222,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 644561,
+      "buyback_pct_of_volume": 10.2,
+      "utilization_pct": 21.0
+    },
+    {
+      "uid": "evo-nasdaq-1383718",
+      "announcement_date": "2025-08-18",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b37945b151165e82d2471ade23aa9403f&lang=en&src=listed",
+      "period_start": "2025-08-11",
+      "period_end": "2025-08-15",
+      "week_shares": 248000,
+      "week_amount": 205644533,
+      "week_avg_price": 829.21,
+      "acc_shares": 762367,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-08-11",
+          "shares": 34000,
+          "price": 878.68,
+          "amount": 29875273
+        },
+        {
+          "date": "2025-08-12",
+          "shares": 25000,
+          "price": 882.89,
+          "amount": 22072375
+        },
+        {
+          "date": "2025-08-13",
+          "shares": 90000,
+          "price": 805.24,
+          "amount": 72471267
+        },
+        {
+          "date": "2025-08-14",
+          "shares": 65000,
+          "price": 817.6,
+          "amount": 53143896
+        },
+        {
+          "date": "2025-08-15",
+          "shares": 34000,
+          "price": 825.93,
+          "amount": 28081722
+        }
+      ],
+      "market_volume": 4826780,
+      "max_allowed_week": 820066,
+      "daily_volume_detail": [
+        {
+          "date": "2025-08-11",
+          "day_volume": 389131,
+          "avg_20d": 625245,
+          "max_allowed": 156311,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-08-12",
+          "day_volume": 429296,
+          "avg_20d": 619390,
+          "max_allowed": 154847,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-08-13",
+          "day_volume": 2785871,
+          "avg_20d": 619198,
+          "max_allowed": 154799,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-08-14",
+          "day_volume": 759908,
+          "avg_20d": 728946,
+          "max_allowed": 182237,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-08-15",
+          "day_volume": 462574,
+          "avg_20d": 687488,
+          "max_allowed": 171872,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 656053,
+      "buyback_pct_of_volume": 5.1,
+      "utilization_pct": 30.2
+    },
+    {
+      "uid": "evo-nasdaq-1384979",
+      "announcement_date": "2025-08-25",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b7caa9261ced0077be0dd14a2035083e9&lang=en&src=listed",
+      "period_start": "2025-08-18",
+      "period_end": "2025-08-22",
+      "week_shares": 124500,
+      "week_amount": 105874530,
+      "week_avg_price": 850.4,
+      "acc_shares": 886867,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-08-18",
+          "shares": 27000,
+          "price": 833.07,
+          "amount": 22492833
+        },
+        {
+          "date": "2025-08-19",
+          "shares": 21000,
+          "price": 850.35,
+          "amount": 17857329
+        },
+        {
+          "date": "2025-08-20",
+          "shares": 24500,
+          "price": 857.14,
+          "amount": 20999969
+        },
+        {
+          "date": "2025-08-21",
+          "shares": 25000,
+          "price": 855.89,
+          "amount": 21397320
+        },
+        {
+          "date": "2025-08-22",
+          "shares": 27000,
+          "price": 856.56,
+          "amount": 23127079
+        }
+      ],
+      "market_volume": 2072501,
+      "max_allowed_week": 778863,
+      "daily_volume_detail": [
+        {
+          "date": "2025-08-18",
+          "day_volume": 796556,
+          "avg_20d": 641139,
+          "max_allowed": 160285,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-08-19",
+          "day_volume": 446592,
+          "avg_20d": 637452,
+          "max_allowed": 159363,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-08-20",
+          "day_volume": 256003,
+          "avg_20d": 636297,
+          "max_allowed": 159074,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-08-21",
+          "day_volume": 280697,
+          "avg_20d": 614507,
+          "max_allowed": 153627,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-08-22",
+          "day_volume": 292653,
+          "avg_20d": 586058,
+          "max_allowed": 146514,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 623091,
+      "buyback_pct_of_volume": 6.0,
+      "utilization_pct": 16.0
+    },
+    {
+      "uid": "evo-nasdaq-1386355",
+      "announcement_date": "2025-09-01",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b5e808ed2e945dd6ebed3c41a354897a2&lang=en&src=listed",
+      "period_start": "2025-08-25",
+      "period_end": "2025-08-29",
+      "week_shares": 219000,
+      "week_amount": 185086611,
+      "week_avg_price": 845.14,
+      "acc_shares": 1105867,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-08-25",
+          "shares": 25000,
+          "price": 861.49,
+          "amount": 21537347
+        },
+        {
+          "date": "2025-08-26",
+          "shares": 35000,
+          "price": 856.45,
+          "amount": 29975683
+        },
+        {
+          "date": "2025-08-27",
+          "shares": 40000,
+          "price": 851.32,
+          "amount": 34052632
+        },
+        {
+          "date": "2025-08-28",
+          "shares": 44000,
+          "price": 853.17,
+          "amount": 37539502
+        },
+        {
+          "date": "2025-08-29",
+          "shares": 75000,
+          "price": 826.42,
+          "amount": 61981447
+        }
+      ],
+      "market_volume": 2802727,
+      "max_allowed_week": 693793,
+      "daily_volume_detail": [
+        {
+          "date": "2025-08-25",
+          "day_volume": 253676,
+          "avg_20d": 571852,
+          "max_allowed": 142963,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-08-26",
+          "day_volume": 778463,
+          "avg_20d": 547795,
+          "max_allowed": 136949,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-08-27",
+          "day_volume": 325013,
+          "avg_20d": 564210,
+          "max_allowed": 141052,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-08-28",
+          "day_volume": 271599,
+          "avg_20d": 552422,
+          "max_allowed": 138106,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-08-29",
+          "day_volume": 1173976,
+          "avg_20d": 538891,
+          "max_allowed": 134723,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 555034,
+      "buyback_pct_of_volume": 7.8,
+      "utilization_pct": 31.6
+    },
+    {
+      "uid": "evo-nasdaq-1387370",
+      "announcement_date": "2025-09-08",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b4e938d3e894756e1b1b73742a12616de&lang=en&src=listed",
+      "period_start": "2025-09-01",
+      "period_end": "2025-09-05",
+      "week_shares": 377000,
+      "week_amount": 298834798,
+      "week_avg_price": 792.67,
+      "acc_shares": 1482867,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-09-01",
+          "shares": 65000,
+          "price": 816.04,
+          "amount": 53042665
+        },
+        {
+          "date": "2025-09-02",
+          "shares": 100000,
+          "price": 785.27,
+          "amount": 78527350
+        },
+        {
+          "date": "2025-09-03",
+          "shares": 92000,
+          "price": 788.56,
+          "amount": 72547188
+        },
+        {
+          "date": "2025-09-04",
+          "shares": 75000,
+          "price": 786.45,
+          "amount": 58984027
+        },
+        {
+          "date": "2025-09-05",
+          "shares": 45000,
+          "price": 794.08,
+          "amount": 35733568
+        }
+      ],
+      "market_volume": 2632232,
+      "max_allowed_week": 747787,
+      "daily_volume_detail": [
+        {
+          "date": "2025-09-01",
+          "day_volume": 481653,
+          "avg_20d": 567997,
+          "max_allowed": 141999,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-09-02",
+          "day_volume": 984303,
+          "avg_20d": 579044,
+          "max_allowed": 144761,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-09-03",
+          "day_volume": 427536,
+          "avg_20d": 612651,
+          "max_allowed": 153163,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-09-04",
+          "day_volume": 274552,
+          "avg_20d": 618062,
+          "max_allowed": 154516,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-09-05",
+          "day_volume": 464188,
+          "avg_20d": 613392,
+          "max_allowed": 153348,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 598229,
+      "buyback_pct_of_volume": 14.3,
+      "utilization_pct": 50.4
+    },
+    {
+      "uid": "evo-nasdaq-1388344",
+      "announcement_date": "2025-09-15",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b45a6f89baa68c266bc1f08c2caf44270&lang=en&src=listed",
+      "period_start": "2025-09-08",
+      "period_end": "2025-09-12",
+      "week_shares": 205000,
+      "week_amount": 163724698,
+      "week_avg_price": 798.66,
+      "acc_shares": 1687867,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-09-08",
+          "shares": 36000,
+          "price": 797.18,
+          "amount": 28698433
+        },
+        {
+          "date": "2025-09-09",
+          "shares": 36000,
+          "price": 804.11,
+          "amount": 28948086
+        },
+        {
+          "date": "2025-09-10",
+          "shares": 38000,
+          "price": 797.76,
+          "amount": 30314914
+        },
+        {
+          "date": "2025-09-11",
+          "shares": 45000,
+          "price": 797.14,
+          "amount": 35871480
+        },
+        {
+          "date": "2025-09-12",
+          "shares": 50000,
+          "price": 797.84,
+          "amount": 39891785
+        }
+      ],
+      "market_volume": 1944458,
+      "max_allowed_week": 700889,
+      "daily_volume_detail": [
+        {
+          "date": "2025-09-08",
+          "day_volume": 262209,
+          "avg_20d": 616712,
+          "max_allowed": 154178,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-09-09",
+          "day_volume": 417726,
+          "avg_20d": 610366,
+          "max_allowed": 152591,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-09-10",
+          "day_volume": 398302,
+          "avg_20d": 609787,
+          "max_allowed": 152447,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-09-11",
+          "day_volume": 477376,
+          "avg_20d": 490409,
+          "max_allowed": 122602,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-09-12",
+          "day_volume": 388845,
+          "avg_20d": 476282,
+          "max_allowed": 119071,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 560711,
+      "buyback_pct_of_volume": 10.5,
+      "utilization_pct": 29.2
+    },
+    {
+      "uid": "evo-nasdaq-1389371",
+      "announcement_date": "2025-09-22",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=bb7fd3e464edf49625700874e10ec2d31&lang=en&src=listed",
+      "period_start": "2025-09-15",
+      "period_end": "2025-09-19",
+      "week_shares": 234500,
+      "week_amount": 190855575,
+      "week_avg_price": 813.88,
+      "acc_shares": 1922367,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-09-15",
+          "shares": 12000,
+          "price": 815.02,
+          "amount": 9780290
+        },
+        {
+          "date": "2025-09-16",
+          "shares": 2500,
+          "price": 831.42,
+          "amount": 2078546
+        },
+        {
+          "date": "2025-09-17",
+          "shares": 55000,
+          "price": 812.28,
+          "amount": 44675240
+        },
+        {
+          "date": "2025-09-18",
+          "shares": 75000,
+          "price": 812.03,
+          "amount": 60902505
+        },
+        {
+          "date": "2025-09-19",
+          "shares": 90000,
+          "price": 815.77,
+          "amount": 73418994
+        }
+      ],
+      "market_volume": 3052588,
+      "max_allowed_week": 588106,
+      "daily_volume_detail": [
+        {
+          "date": "2025-09-15",
+          "day_volume": 564022,
+          "avg_20d": 472596,
+          "max_allowed": 118149,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-09-16",
+          "day_volume": 407357,
+          "avg_20d": 460969,
+          "max_allowed": 115242,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-09-17",
+          "day_volume": 550295,
+          "avg_20d": 459007,
+          "max_allowed": 114752,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-09-18",
+          "day_volume": 528834,
+          "avg_20d": 473722,
+          "max_allowed": 118431,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-09-19",
+          "day_volume": 1002080,
+          "avg_20d": 486129,
+          "max_allowed": 121532,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 470485,
+      "buyback_pct_of_volume": 7.7,
+      "utilization_pct": 39.9
+    },
+    {
+      "uid": "evo-nasdaq-1390385",
+      "announcement_date": "2025-09-29",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=bbbc3d86af37505fccf334a60e538b935&lang=en&src=listed",
+      "period_start": "2025-09-22",
+      "period_end": "2025-09-25",
+      "week_shares": 129523,
+      "week_amount": 105606160,
+      "week_avg_price": 815.35,
+      "acc_shares": 2051890,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-09-22",
+          "shares": 3000,
+          "price": 825.01,
+          "amount": 2475027
+        },
+        {
+          "date": "2025-09-23",
+          "shares": 1000,
+          "price": 826.45,
+          "amount": 826451
+        },
+        {
+          "date": "2025-09-24",
+          "shares": 6000,
+          "price": 819.94,
+          "amount": 4919637
+        },
+        {
+          "date": "2025-09-25",
+          "shares": 119523,
+          "price": 814.78,
+          "amount": 97385045
+        }
+      ],
+      "market_volume": 1346401,
+      "max_allowed_week": 509883,
+      "daily_volume_detail": [
+        {
+          "date": "2025-09-22",
+          "day_volume": 323642,
+          "avg_20d": 521600,
+          "max_allowed": 130400,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-09-23",
+          "day_volume": 244422,
+          "avg_20d": 525099,
+          "max_allowed": 131275,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-09-24",
+          "day_volume": 245800,
+          "avg_20d": 498396,
+          "max_allowed": 124599,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-09-25",
+          "day_volume": 532537,
+          "avg_20d": 494436,
+          "max_allowed": 123609,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 509883,
+      "buyback_pct_of_volume": 9.6,
+      "utilization_pct": 25.4
+    },
+    {
+      "uid": "evo-nasdaq-1396774",
+      "announcement_date": "2025-10-27",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b523b69e890898c9a63c3404c71bfa6bb&lang=en&src=listed",
+      "period_start": "2025-10-20",
+      "period_end": "2025-10-24",
+      "week_shares": 40000,
+      "week_amount": 26710492,
+      "week_avg_price": 667.76,
+      "acc_shares": 40000,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-10-24",
+          "shares": 40000,
+          "price": 667.76,
+          "amount": 26710492
+        }
+      ],
+      "market_volume": 6325372,
+      "max_allowed_week": 743400,
+      "daily_volume_detail": [
+        {
+          "date": "2025-10-20",
+          "day_volume": 430366,
+          "avg_20d": 528432,
+          "max_allowed": 132108,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-10-21",
+          "day_volume": 1176861,
+          "avg_20d": 533768,
+          "max_allowed": 133442,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-10-22",
+          "day_volume": 673387,
+          "avg_20d": 580390,
+          "max_allowed": 145098,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-10-23",
+          "day_volume": 3081940,
+          "avg_20d": 601770,
+          "max_allowed": 150442,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-10-24",
+          "day_volume": 962818,
+          "avg_20d": 729240,
+          "max_allowed": 182310,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 594720,
+      "buyback_pct_of_volume": 0.6,
+      "utilization_pct": 5.4
+    },
+    {
+      "uid": "evo-nasdaq-1398166",
+      "announcement_date": "2025-11-03",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b37ba08d00a47a3826490ca8ee834aefb&lang=en&src=listed",
+      "period_start": "2025-10-27",
+      "period_end": "2025-10-31",
+      "week_shares": 279000,
+      "week_amount": 183036515,
+      "week_avg_price": 656.04,
+      "acc_shares": 319000,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-10-27",
+          "shares": 50000,
+          "price": 673.95,
+          "amount": 33697715
+        },
+        {
+          "date": "2025-10-28",
+          "shares": 60000,
+          "price": 662.48,
+          "amount": 39748752
+        },
+        {
+          "date": "2025-10-29",
+          "shares": 57000,
+          "price": 652.76,
+          "amount": 37207405
+        },
+        {
+          "date": "2025-10-30",
+          "shares": 52000,
+          "price": 650.06,
+          "amount": 33803333
+        },
+        {
+          "date": "2025-10-31",
+          "shares": 60000,
+          "price": 642.99,
+          "amount": 38579310
+        }
+      ],
+      "market_volume": 2776410,
+      "max_allowed_week": 945226,
+      "daily_volume_detail": [
+        {
+          "date": "2025-10-27",
+          "day_volume": 560691,
+          "avg_20d": 756927,
+          "max_allowed": 189232,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-10-28",
+          "day_volume": 711422,
+          "avg_20d": 764600,
+          "max_allowed": 191150,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-10-29",
+          "day_volume": 611073,
+          "avg_20d": 768147,
+          "max_allowed": 192037,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-10-30",
+          "day_volume": 478395,
+          "avg_20d": 769766,
+          "max_allowed": 192442,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-10-31",
+          "day_volume": 414829,
+          "avg_20d": 721459,
+          "max_allowed": 180365,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 756180,
+      "buyback_pct_of_volume": 10.0,
+      "utilization_pct": 29.5
+    },
+    {
+      "uid": "evo-nasdaq-1399604",
+      "announcement_date": "2025-11-10",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=bd5dd8bfe941e3c089de3961a0cff3b41&lang=en&src=listed",
+      "period_start": "2025-11-03",
+      "period_end": "2025-11-07",
+      "week_shares": 324409,
+      "week_amount": 204864623,
+      "week_avg_price": 631.5,
+      "acc_shares": 643409,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-11-03",
+          "shares": 53000,
+          "price": 645.27,
+          "amount": 34199113
+        },
+        {
+          "date": "2025-11-04",
+          "shares": 58000,
+          "price": 633.01,
+          "amount": 36714788
+        },
+        {
+          "date": "2025-11-05",
+          "shares": 74909,
+          "price": 628.57,
+          "amount": 47085392
+        },
+        {
+          "date": "2025-11-06",
+          "shares": 67500,
+          "price": 626.46,
+          "amount": 42286063
+        },
+        {
+          "date": "2025-11-07",
+          "shares": 71000,
+          "price": 627.88,
+          "amount": 44579267
+        }
+      ],
+      "market_volume": 2990259,
+      "max_allowed_week": 891764,
+      "daily_volume_detail": [
+        {
+          "date": "2025-11-03",
+          "day_volume": 542360,
+          "avg_20d": 705034,
+          "max_allowed": 176259,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-11-04",
+          "day_volume": 603690,
+          "avg_20d": 710936,
+          "max_allowed": 177734,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-11-05",
+          "day_volume": 639188,
+          "avg_20d": 710407,
+          "max_allowed": 177602,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-11-06",
+          "day_volume": 673919,
+          "avg_20d": 715187,
+          "max_allowed": 178797,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-11-07",
+          "day_volume": 531102,
+          "avg_20d": 725488,
+          "max_allowed": 181372,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 713410,
+      "buyback_pct_of_volume": 10.8,
+      "utilization_pct": 36.4
+    },
+    {
+      "uid": "evo-nasdaq-1400885",
+      "announcement_date": "2025-11-17",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b8b64c0b5fc60c605b0f07366604360b0&lang=en&src=listed",
+      "period_start": "2025-11-10",
+      "period_end": "2025-11-14",
+      "week_shares": 191629,
+      "week_amount": 123115937,
+      "week_avg_price": 642.47,
+      "acc_shares": 835038,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-11-10",
+          "shares": 47000,
+          "price": 643.51,
+          "amount": 30245092
+        },
+        {
+          "date": "2025-11-11",
+          "shares": 29629,
+          "price": 649.32,
+          "amount": 19238693
+        },
+        {
+          "date": "2025-11-12",
+          "shares": 29000,
+          "price": 651.07,
+          "amount": 18881082
+        },
+        {
+          "date": "2025-11-13",
+          "shares": 20000,
+          "price": 647.65,
+          "amount": 12953066
+        },
+        {
+          "date": "2025-11-14",
+          "shares": 66000,
+          "price": 633.3,
+          "amount": 41798004
+        }
+      ],
+      "market_volume": 2006508,
+      "max_allowed_week": 889093,
+      "daily_volume_detail": [
+        {
+          "date": "2025-11-10",
+          "day_volume": 444301,
+          "avg_20d": 715589,
+          "max_allowed": 178897,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-11-11",
+          "day_volume": 413958,
+          "avg_20d": 716688,
+          "max_allowed": 179172,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-11-12",
+          "day_volume": 354275,
+          "avg_20d": 708782,
+          "max_allowed": 177195,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-11-13",
+          "day_volume": 389803,
+          "avg_20d": 706417,
+          "max_allowed": 176604,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-11-14",
+          "day_volume": 404171,
+          "avg_20d": 708901,
+          "max_allowed": 177225,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 711275,
+      "buyback_pct_of_volume": 9.6,
+      "utilization_pct": 21.6
+    },
+    {
+      "uid": "evo-nasdaq-1402206",
+      "announcement_date": "2025-11-24",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b592bfe2eedb1954aa755b0af07840ee3&lang=en&src=listed",
+      "period_start": "2025-11-17",
+      "period_end": "2025-11-21",
+      "week_shares": 432000,
+      "week_amount": 269771960,
+      "week_avg_price": 624.47,
+      "acc_shares": 1267038,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-11-17",
+          "shares": 115000,
+          "price": 626.7,
+          "amount": 72070672
+        },
+        {
+          "date": "2025-11-18",
+          "shares": 167000,
+          "price": 620.69,
+          "amount": 103654628
+        },
+        {
+          "date": "2025-11-19",
+          "shares": 50000,
+          "price": 626.11,
+          "amount": 31305625
+        },
+        {
+          "date": "2025-11-20",
+          "shares": 55000,
+          "price": 626.25,
+          "amount": 34443942
+        },
+        {
+          "date": "2025-11-21",
+          "shares": 45000,
+          "price": 628.82,
+          "amount": 28297093
+        }
+      ],
+      "market_volume": 2863934,
+      "max_allowed_week": 827520,
+      "daily_volume_detail": [
+        {
+          "date": "2025-11-17",
+          "day_volume": 453357,
+          "avg_20d": 704927,
+          "max_allowed": 176232,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-11-18",
+          "day_volume": 618496,
+          "avg_20d": 706077,
+          "max_allowed": 176519,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-11-19",
+          "day_volume": 597092,
+          "avg_20d": 678159,
+          "max_allowed": 169540,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-11-20",
+          "day_volume": 526491,
+          "avg_20d": 674344,
+          "max_allowed": 168586,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-11-21",
+          "day_volume": 668498,
+          "avg_20d": 546572,
+          "max_allowed": 136643,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 662016,
+      "buyback_pct_of_volume": 15.1,
+      "utilization_pct": 52.2
+    },
+    {
+      "uid": "evo-nasdaq-1403642",
+      "announcement_date": "2025-12-01",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b93d2f6286cb37d00fd32d7ca7d678650&lang=en&src=listed",
+      "period_start": "2025-11-24",
+      "period_end": "2025-11-28",
+      "week_shares": 76000,
+      "week_amount": 47724037,
+      "week_avg_price": 627.95,
+      "acc_shares": 1343038,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-11-24",
+          "shares": 1000,
+          "price": 633.34,
+          "amount": 633341
+        },
+        {
+          "date": "2025-11-25",
+          "shares": 72000,
+          "price": 627.11,
+          "amount": 45152006
+        },
+        {
+          "date": "2025-11-26",
+          "shares": 1000,
+          "price": 640.2,
+          "amount": 640198
+        },
+        {
+          "date": "2025-11-27",
+          "shares": 1000,
+          "price": 647.86,
+          "amount": 647858
+        },
+        {
+          "date": "2025-11-28",
+          "shares": 1000,
+          "price": 650.63,
+          "amount": 650634
+        }
+      ],
+      "market_volume": 3742652,
+      "max_allowed_week": 717345,
+      "daily_volume_detail": [
+        {
+          "date": "2025-11-24",
+          "day_volume": 1557942,
+          "avg_20d": 531856,
+          "max_allowed": 132964,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-11-25",
+          "day_volume": 866732,
+          "avg_20d": 581718,
+          "max_allowed": 145430,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-11-26",
+          "day_volume": 479402,
+          "avg_20d": 589484,
+          "max_allowed": 147371,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-11-27",
+          "day_volume": 488832,
+          "avg_20d": 582900,
+          "max_allowed": 145725,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-11-28",
+          "day_volume": 349744,
+          "avg_20d": 583422,
+          "max_allowed": 145855,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 573876,
+      "buyback_pct_of_volume": 2.0,
+      "utilization_pct": 10.6
+    },
+    {
+      "uid": "evo-nasdaq-1404932",
+      "announcement_date": "2025-12-08",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b2d7ddc72655f837fc6f230a93f09cc5f&lang=en&src=listed",
+      "period_start": "2025-12-01",
+      "period_end": "2025-12-05",
+      "week_shares": 142000,
+      "week_amount": 88874319,
+      "week_avg_price": 625.88,
+      "acc_shares": 1485038,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-12-01",
+          "shares": 500,
+          "price": 645.28,
+          "amount": 322640
+        },
+        {
+          "date": "2025-12-02",
+          "shares": 500,
+          "price": 641.84,
+          "amount": 320920
+        },
+        {
+          "date": "2025-12-03",
+          "shares": 6000,
+          "price": 633.62,
+          "amount": 3801723
+        },
+        {
+          "date": "2025-12-04",
+          "shares": 55000,
+          "price": 626.5,
+          "amount": 34457324
+        },
+        {
+          "date": "2025-12-05",
+          "shares": 80000,
+          "price": 624.65,
+          "amount": 49971712
+        }
+      ],
+      "market_volume": 2113987,
+      "max_allowed_week": 698278,
+      "daily_volume_detail": [
+        {
+          "date": "2025-12-01",
+          "day_volume": 307518,
+          "avg_20d": 580168,
+          "max_allowed": 145042,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-12-02",
+          "day_volume": 388980,
+          "avg_20d": 568426,
+          "max_allowed": 142106,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-12-03",
+          "day_volume": 421324,
+          "avg_20d": 557690,
+          "max_allowed": 139423,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-12-04",
+          "day_volume": 538593,
+          "avg_20d": 546797,
+          "max_allowed": 136699,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2025-12-05",
+          "day_volume": 457572,
+          "avg_20d": 540031,
+          "max_allowed": 135008,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 558622,
+      "buyback_pct_of_volume": 6.7,
+      "utilization_pct": 20.3
+    },
+    {
+      "uid": "evo-nasdaq-1406187",
+      "announcement_date": "2025-12-15",
+      "source": "nasdaq_news",
+      "source_url": "https://view.news.eu.nasdaq.com/view?id=b1a873fe658300aeed95bae715b7dcd0a&lang=en&src=listed",
+      "period_start": "2025-12-08",
+      "period_end": "2025-12-08",
+      "week_shares": 133140,
+      "week_amount": 82901298,
+      "week_avg_price": 622.66,
+      "acc_shares": 1618178,
+      "acc_amount": 0,
+      "program_id": null,
+      "daily_transactions": [
+        {
+          "date": "2025-12-08",
+          "shares": 133140,
+          "price": 622.66,
+          "amount": 82901298
+        }
+      ],
+      "market_volume": 769349,
+      "max_allowed_week": 134089,
+      "daily_volume_detail": [
+        {
+          "date": "2025-12-08",
+          "day_volume": 769349,
+          "avg_20d": 536354,
+          "max_allowed": 134089,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 536354,
+      "buyback_pct_of_volume": 17.3,
+      "utilization_pct": 99.3
+    }
+  ],
+  "last_updated": "2026-04-22T12:08:26.896089+00:00",
   "nasdaq_daily_volumes": {},
-  "current_price": 612.4
+  "current_price": 614.8
 }
