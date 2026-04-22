@@ -89,5 +89,27 @@
     "note": "Bestyrelsen anbefaler intet udbytte for 2025",
     "agm_date": "2026-04-24",
     "new_buyback_mandate": "Afventer opdatering"
-  }
+  },
+  "company_name": "Evolution AB",
+  "total_shares": 204462162,
+  "nav_history": [],
+  "programs": [
+    {
+      "id": 1,
+      "name": "€500M (FY2025)",
+      "start": "2025-02-11",
+      "end": "2025-12-08",
+      "max_amount_eur": 500000000,
+      "max_shares": 20446216,
+      "announced": "2025-02-10",
+      "closed_on": "2025-12-08",
+      "currency": "EUR"
+    }
+  ],
+  "currency": "SEK",
+  "program_currency": "EUR",
+  "announcements": [],
+  "last_updated": "2026-04-22T10:26:16.485860+00:00",
+  "nasdaq_daily_volumes": {},
+  "current_price": 612.4
 }
