@@ -1,36 +1,34 @@
-name: Update EVO Buyback Tracker
+name: Scrape & Deploy Evolution Buyback Tracker
 
 on:
   schedule:
-    # Kør dagligt kl. 18:00 CET (16:00 UTC) på hverdage
-    - cron: '0 16 * * 1-5'
-  workflow_dispatch:  # Manuel kørsel
+    # Evolution publishes acquisition reports on Mondays (for prior week).
+    # Run Mon/Tue/Wed 17:00 UTC (after Stockholm close) to catch them.
+    - cron: '0 17 * * 1,2,3'
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
-  update:
+  scrape-and-deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Install dependencies
-        run: pip install requests beautifulsoup4
-
       - name: Run scraper
-        run: python scraper.py
+        run: |
+          cd scripts
+          python scraper.py
 
-      - name: Commit and push changes
+      - name: Commit updated data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data.json
-          git diff --cached --quiet || git commit -m "Auto-update $(date +'%Y-%m-%d %H:%M')"
+          git diff --staged --quiet || git commit -m "📊 EVO data opdateret $(date -u +%Y-%m-%d)"
           git push
