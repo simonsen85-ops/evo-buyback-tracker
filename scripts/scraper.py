@@ -3,13 +3,16 @@
 Evolution AB — Buyback Scraper (orchestrator).
 
 Thin coordinator. Real work lives in sources/:
-  sources.cision.CisionSource           — primary announcement source
+  sources.nasdaq_news.NasdaqNewsSource  — primary announcement source
   sources.volume.compute                — Safe Harbour calculations
   sources.volume.nasdaq / yahoo         — volume data providers
 
+Data source: Nasdaq Nordic News API (primary regulatory source).
+  api.news.eu.nasdaq.com/news/query.action — OAM filings for Nordic companies.
+
 Flow:
   1. Load data.json
-  2. Fetch recent announcements from Cision (news.cision.com/evolution)
+  2. Fetch recent announcements from Nasdaq News API
   3. Dedup & merge into data.json
   4. Fetch daily volume data (Nasdaq primary, Yahoo fallback)
   5. Compute Safe Harbour metrics (25% rule)
@@ -22,7 +25,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from sources.base import merge_announcements
-from sources.cision import CisionSource
+from sources.nasdaq_news import NasdaqNewsSource
 from sources.volume.compute import (
     build_daily_volume_dict,
     compute_safe_harbour_metrics,
@@ -36,8 +39,7 @@ from sources.volume.yahoo import fetch_yahoo_current_price
 DATA_FILE = Path(__file__).parent.parent / "data.json"
 
 # Company identity
-COMPANY_NAME = "Evolution AB"
-CISION_SLUG = "evolution"              # news.cision.com/<slug>
+COMPANY_NAME = "Evolution AB"          # Exact name as filed with Nasdaq Nordic
 UID_PREFIX = "evo"
 YAHOO_TICKER = "EVO.ST"                # Stockholm Stock Exchange
 NASDAQ_INSTRUMENT_ID = "TX1757078"     # from api.nasdaq.com for EVO
@@ -97,7 +99,7 @@ def _ensure_uids(data: dict) -> int:
 def _dedup_by_period(data: dict) -> int:
     """
     Remove duplicates where same period_start+period_end+acc_shares appear
-    from multiple sources. Prefer cision > legacy.
+    from multiple sources. Prefer nasdaq_news > cision > legacy.
     """
     announcements = data.get("announcements", [])
     by_period: dict[tuple, list[int]] = {}
@@ -106,7 +108,7 @@ def _dedup_by_period(data: dict) -> int:
         by_period.setdefault(key, []).append(i)
 
     to_remove = set()
-    priority = {"cision": 0, "legacy": 1}
+    priority = {"nasdaq_news": 0, "cision": 1, "legacy": 2}
     for key, indices in by_period.items():
         if len(indices) <= 1 or key == (None, None, None):
             continue
@@ -177,10 +179,10 @@ def fetch_all_announcements(data: dict) -> int:
     Returns number of new announcements added.
     """
     sources = [
-        CisionSource(
-            company_slug=CISION_SLUG,
+        NasdaqNewsSource(
+            company_name=COMPANY_NAME,
             uid_prefix=UID_PREFIX,
-            listing_max_pages=5,  # Evolution publishes ~1 buyback/week, scan 50 releases
+            max_listing_pages=10,  # 10 pages × 10 items = up to 100 releases scanned
         ),
     ]
 
