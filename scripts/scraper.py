@@ -129,20 +129,35 @@ def _dedup_by_period(data: dict) -> int:
 # Data load/save
 # ============================================================
 def load_data() -> dict:
-    """Load data.json, or return a fresh empty structure."""
+    """Load data.json, or return a fresh empty structure.
+
+    Robust to legacy data.json files that may have a different schema —
+    ensures all required fields exist (adding defaults if missing) so
+    downstream code doesn't fail with KeyError.
+    """
     if DATA_FILE.exists():
         with open(DATA_FILE, "r") as f:
-            return json.load(f)
-    return {
+            data = json.load(f)
+    else:
+        data = {}
+
+    # Ensure all required fields exist, filling in defaults if missing.
+    # This makes the scraper compatible with any previous data.json format.
+    defaults = {
         "company_name": COMPANY_NAME,
         "total_shares": TOTAL_SHARES,
         "nav_history": NAV_HISTORY,
         "programs": PROGRAMS,
-        "currency": "SEK",          # Trading currency
-        "program_currency": "EUR",   # Program amounts denominated in
+        "currency": "SEK",
+        "program_currency": "EUR",
         "announcements": [],
         "last_updated": None,
     }
+    for key, default_value in defaults.items():
+        if key not in data:
+            data[key] = default_value
+
+    return data
 
 
 def save_data(data: dict) -> None:
