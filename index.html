@@ -77,53 +77,48 @@
   .metric-value.amber { color: var(--accent-amber); }
   .metric-value.blue { color: var(--accent-blue); }
   .metric-value.purple { color: var(--accent-purple); }
+  .metric-value.negative { color: var(--accent-red); }
   .metric-sub { font-size: 11px; color: var(--t3); margin-top: 4px; }
 
   /* SECTION HEADERS */
-  .section-header { font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600; color: var(--t3); text-transform: uppercase; letter-spacing: 2px; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .section-header { font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 500; color: var(--t3); text-transform: uppercase; letter-spacing: 2px; margin: 40px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
 
-  /* VALUE CARDS */
-  .value-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  /* VALUE CREATION GRID */
+  .value-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-bottom: 24px; }
   .value-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 24px; }
-  .value-card-title { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; color: var(--t2); margin-bottom: 16px; }
-  .value-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .value-card-title { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; color: var(--t1); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .value-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid rgba(30,41,59,0.5); font-size: 13px; }
   .value-row:last-child { border-bottom: none; }
-  .value-row-label { font-size: 12px; color: var(--t3); }
-  .value-row-value { font-size: 13px; font-weight: 600; color: var(--t1); }
+  .value-row-label { color: var(--t3); }
+  .value-row-value { color: var(--t1); font-weight: 600; }
   .value-row-value.positive { color: var(--g1); }
   .value-row-value.negative { color: var(--accent-red); }
   .value-row-value.highlight { color: var(--accent-blue); }
 
-  /* TABLE */
+  /* TABLES */
   .table-wrapper { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 24px; }
   .table-scroll { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: 12px; }
   thead { background: var(--bg-elevated); }
-  th { padding: 12px 16px; text-align: left; font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 600; color: var(--t4); text-transform: uppercase; letter-spacing: 1.5px; white-space: nowrap; border-bottom: 1px solid var(--border); }
-  th.right, td.right { text-align: right; }
-  td { padding: 10px 16px; border-bottom: 1px solid var(--border); white-space: nowrap; color: var(--t2); }
-  tr:hover td { background: var(--bg-card-hover); }
+  th { padding: 12px 16px; text-align: left; font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 600; color: var(--t3); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
+  th.right { text-align: right; }
+  td { padding: 12px 16px; color: var(--t2); border-bottom: 1px solid rgba(30,41,59,0.5); }
+  td.right { text-align: right; }
+  td.td-muted { color: var(--t4); }
+  td.td-green { color: var(--g1); font-weight: 600; }
   tr:last-child td { border-bottom: none; }
-  .td-green { color: var(--g2); font-weight: 600; }
-  .td-muted { color: var(--t4); }
-  .totals-row td { font-weight: 700; color: var(--t1); border-top: 2px solid var(--t4); background: var(--bg-elevated); }
+  tr.totals-row { background: var(--bg-elevated); font-weight: 600; }
+  tr.totals-row td { color: var(--t1); }
 
-  /* NOTES / FOOTER */
-  .notes { margin-top: 32px; padding: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; }
-  .notes-title { font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 600; color: var(--t3); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
-  .notes p { font-size: 12px; color: var(--t4); line-height: 1.8; margin-bottom: 4px; }
+  /* NOTES */
+  .notes { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-top: 24px; font-size: 12px; color: var(--t3); }
+  .notes-title { font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 600; color: var(--t4); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+  .notes p { margin: 6px 0; }
   .notes a { color: var(--accent-blue); text-decoration: none; }
   .notes a:hover { text-decoration: underline; }
-  .footer { margin-top: 24px; text-align: center; font-size: 10px; color: var(--t4); letter-spacing: 1px; }
 
-  @media (max-width: 640px) {
-    .container { padding: 16px 12px; }
-    .ticker { font-size: 24px; }
-    .price { font-size: 22px; }
-    .metric-value { font-size: 20px; }
-    .metrics-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .metric-card { padding: 14px; }
-  }
+  /* FOOTER */
+  .footer { text-align: center; padding: 40px 0 20px; color: var(--t4); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
 </style>
 </head>
 <body>
@@ -135,7 +130,7 @@
       <span class="ticker">EVO</span>
       <span class="company-name">Evolution AB (publ) — Nasdaq Stockholm</span>
     </div>
-    <div class="header-subtitle">Buyback Tracker — €500M Programme</div>
+    <div class="header-subtitle">Buyback Tracker — €500M programme</div>
     <div class="price-row">
       <span class="price" id="live-price"><span class="price-loading">Henter kurs...</span></span>
       <span class="price-change" id="live-change"></span>
@@ -143,10 +138,10 @@
     </div>
   </div>
 
-  <!-- PROGRAMME STATUS -->
+  <!-- PROGRAMME STATUS BAR -->
   <div class="programme-bar">
     <div class="programme-bar-header">
-      <span class="programme-label">€500M Tilbagekøbsprogram · feb 2025 – AGM 2026</span>
+      <span class="programme-label">€500M tilbagekøbsprogram · feb 2025 – agm 2026</span>
       <span class="programme-status status-paused">
         <span class="status-dot"></span>
         Afventer 2026 kapitalallokering
@@ -209,7 +204,7 @@
   <div class="section-header">Værdiskabelse — Net Buyback Model</div>
   <div class="value-grid">
     <div class="value-card">
-      <div class="value-card-title">FCF Yield & Kapacitet</div>
+      <div class="value-card-title">FCF Yield &amp; Kapacitet</div>
       <div class="value-row"><span class="value-row-label">EBITDA 2025</span><span class="value-row-value">€1.457M</span></div>
       <div class="value-row"><span class="value-row-label">EBITDA-margin</span><span class="value-row-value">~66%</span></div>
       <div class="value-row"><span class="value-row-label">CapEx 2025</span><span class="value-row-value">€135M</span></div>
@@ -252,22 +247,40 @@
     </table>
   </div></div>
 
-  <!-- WEEKLY LOG -->
-  <div class="section-header">Ugentlige tilbagekøb — Seneste trancher (Q4 2025)</div>
+  <!-- WEEKLY LOG — DYNAMIC FROM data.json -->
+  <div class="section-header">Ugentlige tilbagekøb — Alle trancher (28 registreret)</div>
   <div class="table-wrapper"><div class="table-scroll">
     <table>
       <thead><tr><th>Periode</th><th class="right">Antal aktier</th><th class="right">Kumulativ beholdning</th><th>Note</th></tr></thead>
       <tbody>
-        <tr><td>3–7 nov 2025</td><td class="right">324.409</td><td class="right td-muted">—</td><td></td></tr>
-        <tr><td>10–14 nov 2025</td><td class="right">191.629</td><td class="right td-muted">—</td><td></td></tr>
-        <tr><td>17–21 nov 2025</td><td class="right">432.000</td><td class="right td-muted">—</td><td></td></tr>
-        <tr><td>24–28 nov 2025</td><td class="right">76.000</td><td class="right td-muted">—</td><td></td></tr>
-        <tr><td>1–5 dec 2025</td><td class="right">142.000</td><td class="right td-muted">—</td><td></td></tr>
-        <tr><td>8 dec 2025</td><td class="right">133.140</td><td class="right td-muted">—</td><td style="color:var(--accent-amber);">Program afsluttet</td></tr>
-        <tr><td>1–5 sep 2025</td><td class="right">377.000</td><td class="right td-muted">—</td><td></td></tr>
-        <tr><td>22–25 sep 2025</td><td class="right">129.523</td><td class="right">3.617.371</td><td style="color:var(--t3);">Pause for Q3-rapport</td></tr>
-        <tr><td>15 maj – 30 jun 2025</td><td class="right">1.115.392</td><td class="right td-muted">—</td><td style="color:var(--t3);">€65,4M · Tranche 1</td></tr>
-        <tr><td>Feb – maj 2025 (2024 AGM)</td><td class="right">2.100.081</td><td class="right td-muted">—</td><td style="color:var(--t3);">€154M under gammel mandat</td></tr>
+        <tr><td>8 dec 2025</td><td class="right">133.140</td><td class="right">1.618.178</td><td><span style="color:var(--accent-amber);">Program afsluttet</span></td></tr>
+        <tr><td>1–5 dec 2025</td><td class="right">142.000</td><td class="right">1.485.038</td><td><span style="color:var(--t3);">~625,9 SEK/aktie</span></td></tr>
+        <tr><td>24–28 nov 2025</td><td class="right">76.000</td><td class="right">1.343.038</td><td><span style="color:var(--t3);">~628,0 SEK/aktie</span></td></tr>
+        <tr><td>17–21 nov 2025</td><td class="right">432.000</td><td class="right">1.267.038</td><td><span style="color:var(--t3);">~624,5 SEK/aktie</span></td></tr>
+        <tr><td>10–14 nov 2025</td><td class="right">191.629</td><td class="right">835.038</td><td><span style="color:var(--t3);">~642,5 SEK/aktie</span></td></tr>
+        <tr><td>3–7 nov 2025</td><td class="right">324.409</td><td class="right">643.409</td><td><span style="color:var(--t3);">~631,5 SEK/aktie</span></td></tr>
+        <tr><td>27–31 okt 2025</td><td class="right">279.000</td><td class="right">319.000</td><td><span style="color:var(--t3);">~656,0 SEK/aktie</span></td></tr>
+        <tr><td>20–24 okt 2025</td><td class="right">40.000</td><td class="right">40.000</td><td><span style="color:var(--t3);">~667,8 SEK/aktie</span></td></tr>
+        <tr><td>22–25 sep 2025</td><td class="right">129.523</td><td class="right">2.051.890</td><td><span style="color:var(--t3);">~815,4 SEK/aktie</span></td></tr>
+        <tr><td>15–19 sep 2025</td><td class="right">234.500</td><td class="right">1.922.367</td><td><span style="color:var(--t3);">~813,9 SEK/aktie</span></td></tr>
+        <tr><td>8–12 sep 2025</td><td class="right">205.000</td><td class="right">1.687.867</td><td><span style="color:var(--t3);">~798,7 SEK/aktie</span></td></tr>
+        <tr><td>1–5 sep 2025</td><td class="right">377.000</td><td class="right">1.482.867</td><td><span style="color:var(--t3);">~792,7 SEK/aktie</span></td></tr>
+        <tr><td>25–29 aug 2025</td><td class="right">219.000</td><td class="right">1.105.867</td><td><span style="color:var(--t3);">~845,1 SEK/aktie</span></td></tr>
+        <tr><td>18–22 aug 2025</td><td class="right">124.500</td><td class="right">886.867</td><td><span style="color:var(--t3);">~850,4 SEK/aktie</span></td></tr>
+        <tr><td>11–15 aug 2025</td><td class="right">248.000</td><td class="right">762.367</td><td><span style="color:var(--t3);">~829,2 SEK/aktie</span></td></tr>
+        <tr><td>4–8 aug 2025</td><td class="right">169.600</td><td class="right">514.367</td><td><span style="color:var(--t3);">~867,8 SEK/aktie</span></td></tr>
+        <tr><td>28 jul – 1 aug 2025</td><td class="right">173.767</td><td class="right">344.767</td><td><span style="color:var(--t3);">~874,3 SEK/aktie</span></td></tr>
+        <tr><td>21–25 jul 2025</td><td class="right">171.000</td><td class="right">171.000</td><td><span style="color:var(--t3);">~849,5 SEK/aktie</span></td></tr>
+        <tr><td>14–16 jul 2025</td><td class="right">130.389</td><td class="right">1.565.481</td><td><span style="color:var(--t3);">~771,0 SEK/aktie</span></td></tr>
+        <tr><td>7–11 jul 2025</td><td class="right">195.700</td><td class="right">1.435.092</td><td><span style="color:var(--t3);">~762,3 SEK/aktie</span></td></tr>
+        <tr><td>30 jun – 4 jul 2025</td><td class="right">145.000</td><td class="right">1.239.392</td><td><span style="color:var(--t3);">~762,0 SEK/aktie</span></td></tr>
+        <tr><td>23–27 jun 2025</td><td class="right">133.000</td><td class="right">1.094.392</td><td><span style="color:var(--t3);">~718,0 SEK/aktie</span></td></tr>
+        <tr><td>16–19 jun 2025</td><td class="right">49.500</td><td class="right">961.392</td><td><span style="color:var(--t3);">~705,8 SEK/aktie</span></td></tr>
+        <tr><td>9–13 jun 2025</td><td class="right">98.045</td><td class="right">911.892</td><td><span style="color:var(--t3);">~661,7 SEK/aktie</span></td></tr>
+        <tr><td>2–5 jun 2025</td><td class="right">217.000</td><td class="right">813.847</td><td><span style="color:var(--t3);">~648,7 SEK/aktie</span></td></tr>
+        <tr><td>26–30 maj 2025</td><td class="right">202.847</td><td class="right">596.847</td><td><span style="color:var(--t3);">~653,9 SEK/aktie</span></td></tr>
+        <tr><td>19–23 maj 2025</td><td class="right">259.000</td><td class="right">394.000</td><td><span style="color:var(--t3);">~651,9 SEK/aktie</span></td></tr>
+        <tr><td>15–16 maj 2025</td><td class="right">135.000</td><td class="right">135.000</td><td><span style="color:var(--t3);">~670,2 SEK/aktie</span></td></tr>
       </tbody>
     </table>
   </div></div>
@@ -291,15 +304,15 @@
       <div class="value-row"><span class="value-row-label">Samlet buyback-kapacitet</span><span class="value-row-value positive">€1.600M+</span></div>
       <div class="value-row"><span class="value-row-label">Potentiel aktie-reduktion</span><span class="value-row-value positive">~12–15M aktier</span></div>
       <div class="value-row"><span class="value-row-label">Potentiel annullerings-EPS-boost</span><span class="value-row-value positive">+6–8%</span></div>
-      <div class="value-row"><span class="value-row-label">Galaxy Gaming M&A</span><span class="value-row-value" style="color:var(--accent-amber);">Afventer regulatorisk godkendelse</span></div>
+      <div class="value-row"><span class="value-row-label">Galaxy Gaming M&amp;A</span><span class="value-row-value" style="color:var(--accent-amber);">Afventer regulatorisk godkendelse</span></div>
     </div>
   </div>
 
   <!-- NOTES -->
   <div class="notes">
-    <div class="notes-title">Kilder & Metodik</div>
-    <p>• Tilbagekøbsdata fra <a href="https://www.evolution.com/investors/press-releases/" target="_blank">evolution.com/investors/press-releases</a> + <a href="https://news.cision.com" target="_blank">Cision</a></p>
-    <p>• Kursdata hentet live fra Yahoo Finance ved hvert pageload</p>
+    <div class="notes-title">Kilder &amp; Metodik</div>
+    <p>• Tilbagekøbsdata hentet automatisk fra <a href="https://view.news.eu.nasdaq.com" target="_blank">Nasdaq Nordic OAM</a> (primær regulatorisk kilde)</p>
+    <p>• Kursdata hentet live fra Yahoo Finance ved hvert pageload · Fallback: opdateret 23. Apr 2026 09:02 UTC</p>
     <p>• Værdiskabelsesmodel: FCF yield, EPS-accretion via annulleringseffekt, net buyback = buyback − SBC</p>
     <p>• SBC-estimat baseret på incitamentsprogrammer (konservativt ~0,3–0,5% årlig udvanding)</p>
     <p>• €500M program annonceret 10. feb 2025 · Afsluttet 8. dec 2025</p>
@@ -308,7 +321,7 @@
   </div>
 
   <div class="footer" id="footer-ts">
-    EVOLUTION AB BUYBACK TRACKER · Kurs opdateres live · Ikke investeringsrådgivning
+    EVOLUTION AB BUYBACK TRACKER · 28 trancher · Sidst opdateret 23. Apr 2026 09:02 UTC
   </div>
 
 </div>
@@ -319,6 +332,7 @@
   const TICKER = 'EVO.ST';
   const AVG_BB_PRICE = 680; // Estimeret gns. tilbagekøbskurs i SEK
   const SHARES_OUT = 200840000;
+  const FALLBACK_PRICE = 609.8;
 
   const elPrice = document.getElementById('live-price');
   const elChange = document.getElementById('live-change');
@@ -331,8 +345,24 @@
     return n.toLocaleString('da-DK', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
+  function applyFallback() {
+    if (FALLBACK_PRICE > 0) {
+      elPrice.textContent = `SEK ${fmt(FALLBACK_PRICE)}`;
+      elDate.textContent = 'Forsinket · fra scraper';
+      const discount = ((FALLBACK_PRICE - AVG_BB_PRICE) / AVG_BB_PRICE) * 100;
+      elDiscount.textContent = `${discount.toFixed(1)}%`;
+      elDiscount.className = `metric-value ${discount < 0 ? 'green' : 'negative'}`;
+      elDiscountSub.textContent = `${fmt(FALLBACK_PRICE)} vs. ~${AVG_BB_PRICE} · fallback-kurs`;
+      const mcapB = (FALLBACK_PRICE * SHARES_OUT) / 1e9;
+      elMcap.textContent = `SEK ${mcapB.toFixed(1)} mia.`;
+    } else {
+      elPrice.textContent = 'SEK —';
+      elDate.textContent = 'Kurs utilgængelig';
+    }
+  }
+
   try {
-    // Yahoo Finance v8 chart API (CORS-venlig fra browser)
+    // Yahoo Finance v8 chart API
     const url = `https://query1.finance.yahoo.com/v8/finance/chart/${TICKER}?range=5d&interval=1d`;
     const res = await fetch(url);
     const data = await res.json();
@@ -343,9 +373,7 @@
     const change = price - prevClose;
     const changePct = (change / prevClose) * 100;
 
-    // Opdater kursvisning
     elPrice.textContent = `SEK ${fmt(price)}`;
-    
     const sign = change >= 0 ? '+' : '';
     elChange.textContent = `${sign}${fmt(change)} (${sign}${changePct.toFixed(2)}%)`;
     elChange.className = `price-change ${change >= 0 ? 'positive' : 'negative'}`;
@@ -355,42 +383,17 @@
     const timeStr = now.toLocaleTimeString('da-DK', { hour: '2-digit', minute: '2-digit' });
     elDate.textContent = `${dateStr} ${timeStr} · Live`;
 
-    // Beregn rabat til gns. buyback-kurs
     const discount = ((price - AVG_BB_PRICE) / AVG_BB_PRICE) * 100;
     elDiscount.textContent = `${discount.toFixed(1)}%`;
     elDiscount.className = `metric-value ${discount < 0 ? 'green' : 'negative'}`;
     elDiscountSub.textContent = `${fmt(price)} vs. ~${AVG_BB_PRICE} · ${discount < 0 ? 'rabat' : 'præmie'} til cost basis`;
 
-    // Markedsværdi
     const mcapB = (price * SHARES_OUT) / 1e9;
     elMcap.textContent = `SEK ${mcapB.toFixed(1)} mia.`;
 
   } catch (err) {
-    console.warn('Live kurs fejlede, prøver fallback...', err);
-    
-    // Fallback: hent fra data.json (opdateret af GitHub Actions)
-    try {
-      const fbRes = await fetch('data.json');
-      const fbData = await fbRes.json();
-      const p = fbData.price;
-      
-      elPrice.textContent = `SEK ${fmt(p.price)}`;
-      const sign = p.change >= 0 ? '+' : '';
-      elChange.textContent = `${sign}${fmt(p.change)} (${sign}${p.change_pct.toFixed(2)}%)`;
-      elChange.className = `price-change ${p.change >= 0 ? 'positive' : 'negative'}`;
-      elDate.textContent = `${p.timestamp} · Forsinket`;
-
-      const discount = ((p.price - AVG_BB_PRICE) / AVG_BB_PRICE) * 100;
-      elDiscount.textContent = `${discount.toFixed(1)}%`;
-      elDiscount.className = `metric-value ${discount < 0 ? 'green' : 'negative'}`;
-      elDiscountSub.textContent = `${fmt(p.price)} vs. ~${AVG_BB_PRICE} · fallback-kurs`;
-
-      const mcapB = (p.price * SHARES_OUT) / 1e9;
-      elMcap.textContent = `SEK ${mcapB.toFixed(1)} mia.`;
-    } catch (e2) {
-      elPrice.textContent = 'SEK —';
-      elDate.textContent = 'Kurs utilgængelig';
-    }
+    console.warn('Live kurs fejlede, bruger fallback fra data.json', err);
+    applyFallback();
   }
 })();
 </script>
