@@ -1,0 +1,525 @@
+#!/usr/bin/env python3
+"""
+Evolution AB Buyback Tracker — index.html generator.
+
+Reads data.json (populated by scraper.py) and generates index.html
+with the same design system as the manual version, but with all weekly
+tranches dynamically injected.
+
+Most KPI values and value-creation cards remain "business assessments"
+that are edited here (rather than derived from data.json). The dynamic
+bits are:
+  - Programme progress bar + status
+  - Weekly tranches table (all entries from announcements[])
+  - Cumulative shares held at each tranche
+  - Last-updated timestamp
+"""
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+
+ROOT = Path(__file__).parent.parent
+DATA_FILE = ROOT / "data.json"
+OUTPUT_FILE = ROOT / "index.html"
+
+# Danish month name mapping
+MONTHS_DA = [
+    "", "jan", "feb", "mar", "apr", "maj", "jun",
+    "jul", "aug", "sep", "okt", "nov", "dec",
+]
+
+
+def fmt_int(n):
+    """Format integer with Danish thousand separator (dot)."""
+    try:
+        return f"{int(n):,}".replace(",", ".")
+    except (ValueError, TypeError):
+        return "—"
+
+
+def fmt_float(n, decimals=2):
+    """Format float with Danish decimal comma and thousand separator."""
+    try:
+        return f"{float(n):,.{decimals}f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    except (ValueError, TypeError):
+        return "—"
+
+
+def fmt_date(date_str):
+    """Parse YYYY-MM-DD → '15 dec 2025' in Danish."""
+    try:
+        y, m, d = date_str.split("-")
+        return f"{int(d)} {MONTHS_DA[int(m)]} {y}"
+    except (ValueError, AttributeError):
+        return date_str or ""
+
+
+def fmt_period(start, end):
+    """Format period. If same day, show one date. Otherwise show range."""
+    if not start and not end:
+        return "—"
+    if start == end:
+        return fmt_date(end)
+    try:
+        ys, ms, ds = start.split("-")
+        ye, me, de = end.split("-")
+        if ys == ye and ms == me:
+            # Same month: "3-7 nov 2025"
+            return f"{int(ds)}–{int(de)} {MONTHS_DA[int(me)]} {ye}"
+        elif ys == ye:
+            # Same year: "15 maj – 30 jun 2025"
+            return f"{int(ds)} {MONTHS_DA[int(ms)]} – {int(de)} {MONTHS_DA[int(me)]} {ye}"
+        else:
+            return f"{fmt_date(start)} – {fmt_date(end)}"
+    except (ValueError, AttributeError):
+        return f"{start} – {end}"
+
+
+def build():
+    with open(DATA_FILE) as f:
+        data = json.load(f)
+
+    # Get announcements, sort newest first for display
+    announcements = data.get("announcements", [])
+    announcements.sort(key=lambda a: a.get("period_end", ""), reverse=True)
+
+    # Current price from data.json (fallback if live JS fails)
+    current_price = data.get("current_price", 0) or 0
+
+    # Generate the weekly tranches table rows
+    tranche_rows = []
+    for ann in announcements:
+        period = fmt_period(ann.get("period_start"), ann.get("period_end"))
+        shares = fmt_int(ann.get("week_shares", 0))
+        acc = ann.get("acc_shares", 0)
+        acc_fmt = fmt_int(acc) if acc else '<span class="td-muted">—</span>'
+        avg_price = ann.get("week_avg_price", 0)
+        note = ""
+        # Add special annotations based on data
+        if ann.get("period_end") == "2025-12-08":
+            note = '<span style="color:var(--accent-amber);">Program afsluttet</span>'
+        elif avg_price:
+            note = f'<span style="color:var(--t3);">~{fmt_float(avg_price, 1)} SEK/aktie</span>'
+        tranche_rows.append(
+            f'<tr><td>{period}</td>'
+            f'<td class="right">{shares}</td>'
+            f'<td class="right">{acc_fmt}</td>'
+            f'<td>{note}</td></tr>'
+        )
+
+    weekly_tranches_html = "\n        ".join(tranche_rows)
+
+    # Historic programme totals (from hand-curated knowledge — programs array)
+    # We'll generate this section from data['programs'] if present,
+    # but keep a fallback to the curated 5-row table
+    program_history_html = """
+        <tr><td>2023 AGM-mandat</td><td>Nov 2023</td><td>Jul 2024</td><td class="right">€400M</td><td class="right">~4,48M</td><td class="right td-green">Fuldført</td></tr>
+        <tr><td>2024 AGM-mandat I</td><td>Jul 2024</td><td>Okt 2024</td><td class="right">€400M</td><td class="right">~4,48M</td><td class="right td-green">Fuldført</td></tr>
+        <tr><td>2024 AGM-mandat II</td><td>Feb 2025</td><td>Maj 2025</td><td class="right">€500M (€154M brugt)</td><td class="right">2,10M</td><td class="right td-green">Videreført</td></tr>
+        <tr><td>2025 AGM-mandat</td><td>Maj 2025</td><td>Dec 2025</td><td class="right">€346M (rest)</td><td class="right">~5,80M</td><td class="right td-green">Fuldført</td></tr>
+        <tr class="totals-row"><td>Total €500M-program</td><td>Feb 2025</td><td>8. dec 2025</td><td class="right">€500M</td><td class="right">~7,90M</td><td class="right" style="color:var(--g1);">Fuldført</td></tr>
+    """.strip()
+
+    # Last-updated timestamp
+    last_updated = data.get("last_updated", "")
+    if last_updated:
+        try:
+            dt = datetime.fromisoformat(last_updated.replace("Z", "+00:00"))
+            last_updated_fmt = dt.strftime("%d. %b %Y %H:%M UTC")
+        except ValueError:
+            last_updated_fmt = last_updated
+    else:
+        last_updated_fmt = "—"
+
+    # Build the HTML
+    html = HTML_TEMPLATE.format(
+        current_price=current_price,
+        tranche_rows=weekly_tranches_html,
+        program_rows=program_history_html,
+        last_updated=last_updated_fmt,
+        num_announcements=len(announcements),
+    )
+
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+        f.write(html)
+    print(
+        f"Built {OUTPUT_FILE} with {len(announcements)} tranche entries "
+        f"(price: {current_price} SEK)"
+    )
+
+
+HTML_TEMPLATE = r"""<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evolution AB — Buyback Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {{
+    --bg-primary: #0a0e17;
+    --bg-card: #111827;
+    --bg-card-hover: #161f33;
+    --bg-elevated: #1a2332;
+    --bg-input: #0d1220;
+    --t1: #f8fafc;
+    --t2: #b0bac9;
+    --t3: #6b7a90;
+    --t4: #3d4a5c;
+    --g1: #4ade80;
+    --g2: #22c55e;
+    --g3: #16a34a;
+    --g4: #15803d;
+    --accent-blue: #3b82f6;
+    --accent-amber: #f59e0b;
+    --accent-red: #ef4444;
+    --accent-purple: #a78bfa;
+    --border: #1e293b;
+    --border-hover: #334155;
+  }}
+  * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+  body {{
+    background: var(--bg-primary);
+    color: var(--t2);
+    font-family: 'JetBrains Mono', monospace;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }}
+  .container {{ max-width: 1200px; margin: 0 auto; padding: 32px 24px; }}
+
+  /* HEADER */
+  .header {{ margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 24px; }}
+  .header-top {{ display: flex; align-items: baseline; gap: 16px; margin-bottom: 8px; flex-wrap: wrap; }}
+  .ticker {{ font-family: 'JetBrains Mono', monospace; font-size: 32px; font-weight: 700; color: var(--t1); letter-spacing: -1px; }}
+  .company-name {{ font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 400; color: var(--t3); }}
+  .header-subtitle {{ font-family: 'Outfit', sans-serif; font-size: 13px; color: var(--t4); letter-spacing: 2px; text-transform: uppercase; }}
+  .price-row {{ display: flex; align-items: baseline; gap: 12px; margin-top: 12px; flex-wrap: wrap; }}
+  .price {{ font-size: 28px; font-weight: 600; color: var(--t1); }}
+  .price-change {{ font-size: 14px; font-weight: 500; }}
+  .price-change.negative {{ color: var(--accent-red); }}
+  .price-change.positive {{ color: var(--g1); }}
+  .price-date {{ font-size: 11px; color: var(--t4); }}
+  .price-loading {{ color: var(--t4); font-size: 12px; animation: blink 1.5s infinite; }}
+  @keyframes blink {{ 0%,100%{{opacity:1}} 50%{{opacity:0.3}} }}
+
+  /* PROGRAMME STATUS BAR */
+  .programme-bar {{ background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 24px; }}
+  .programme-bar-header {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }}
+  .programme-label {{ font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 500; color: var(--t3); text-transform: uppercase; letter-spacing: 1.5px; }}
+  .programme-status {{ display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 99px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }}
+  .status-paused {{ background: rgba(245,158,11,0.15); color: var(--accent-amber); border: 1px solid rgba(245,158,11,0.3); }}
+  .status-dot {{ width: 6px; height: 6px; border-radius: 50%; background: var(--accent-amber); animation: pulse-dot 2s infinite; }}
+  @keyframes pulse-dot {{ 0%,100%{{opacity:1}} 50%{{opacity:0.4}} }}
+  .progress-track {{ width: 100%; height: 8px; background: var(--bg-input); border-radius: 4px; overflow: hidden; margin-bottom: 10px; }}
+  .progress-fill {{ height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--g4), var(--g2), var(--g1)); transition: width 1s ease; }}
+  .progress-labels {{ display: flex; justify-content: space-between; font-size: 11px; }}
+  .progress-spent {{ color: var(--g2); font-weight: 600; }}
+  .progress-total {{ color: var(--t4); }}
+
+  /* METRICS GRID */
+  .metrics-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }}
+  .metric-card {{ background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; transition: border-color 0.2s; }}
+  .metric-card:hover {{ border-color: var(--border-hover); background: var(--bg-card-hover); }}
+  .metric-label {{ font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 500; color: var(--t4); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }}
+  .metric-value {{ font-size: 24px; font-weight: 700; color: var(--t1); line-height: 1.2; }}
+  .metric-value.green {{ color: var(--g1); }}
+  .metric-value.amber {{ color: var(--accent-amber); }}
+  .metric-value.blue {{ color: var(--accent-blue); }}
+  .metric-value.purple {{ color: var(--accent-purple); }}
+  .metric-value.negative {{ color: var(--accent-red); }}
+  .metric-sub {{ font-size: 11px; color: var(--t3); margin-top: 4px; }}
+
+  /* SECTION HEADERS */
+  .section-header {{ font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 500; color: var(--t3); text-transform: uppercase; letter-spacing: 2px; margin: 40px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }}
+
+  /* VALUE CREATION GRID */
+  .value-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-bottom: 24px; }}
+  .value-card {{ background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 24px; }}
+  .value-card-title {{ font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; color: var(--t1); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }}
+  .value-row {{ display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid rgba(30,41,59,0.5); font-size: 13px; }}
+  .value-row:last-child {{ border-bottom: none; }}
+  .value-row-label {{ color: var(--t3); }}
+  .value-row-value {{ color: var(--t1); font-weight: 600; }}
+  .value-row-value.positive {{ color: var(--g1); }}
+  .value-row-value.negative {{ color: var(--accent-red); }}
+  .value-row-value.highlight {{ color: var(--accent-blue); }}
+
+  /* TABLES */
+  .table-wrapper {{ background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 24px; }}
+  .table-scroll {{ overflow-x: auto; }}
+  table {{ width: 100%; border-collapse: collapse; font-size: 12px; }}
+  thead {{ background: var(--bg-elevated); }}
+  th {{ padding: 12px 16px; text-align: left; font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 600; color: var(--t3); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); }}
+  th.right {{ text-align: right; }}
+  td {{ padding: 12px 16px; color: var(--t2); border-bottom: 1px solid rgba(30,41,59,0.5); }}
+  td.right {{ text-align: right; }}
+  td.td-muted {{ color: var(--t4); }}
+  td.td-green {{ color: var(--g1); font-weight: 600; }}
+  tr:last-child td {{ border-bottom: none; }}
+  tr.totals-row {{ background: var(--bg-elevated); font-weight: 600; }}
+  tr.totals-row td {{ color: var(--t1); }}
+
+  /* NOTES */
+  .notes {{ background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-top: 24px; font-size: 12px; color: var(--t3); }}
+  .notes-title {{ font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 600; color: var(--t4); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }}
+  .notes p {{ margin: 6px 0; }}
+  .notes a {{ color: var(--accent-blue); text-decoration: none; }}
+  .notes a:hover {{ text-decoration: underline; }}
+
+  /* FOOTER */
+  .footer {{ text-align: center; padding: 40px 0 20px; color: var(--t4); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <span class="ticker">EVO</span>
+      <span class="company-name">Evolution AB (publ) — Nasdaq Stockholm</span>
+    </div>
+    <div class="header-subtitle">Buyback Tracker — €500M programme</div>
+    <div class="price-row">
+      <span class="price" id="live-price"><span class="price-loading">Henter kurs...</span></span>
+      <span class="price-change" id="live-change"></span>
+      <span class="price-date" id="live-date"></span>
+    </div>
+  </div>
+
+  <!-- PROGRAMME STATUS BAR -->
+  <div class="programme-bar">
+    <div class="programme-bar-header">
+      <span class="programme-label">€500M tilbagekøbsprogram · feb 2025 – agm 2026</span>
+      <span class="programme-status status-paused">
+        <span class="status-dot"></span>
+        Afventer 2026 kapitalallokering
+      </span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" style="width: 100%;"></div>
+    </div>
+    <div class="progress-labels">
+      <span class="progress-spent">€500M brugt · 100% fuldført</span>
+      <span class="progress-total">Program afsluttet 8. dec 2025</span>
+    </div>
+  </div>
+
+  <!-- KEY METRICS -->
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-label">Samlede tilbagekøb (2025)</div>
+      <div class="metric-value green">~€500M</div>
+      <div class="metric-sub">≈ SEK 5,7 mia. · program fuldført</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Aktier tilbagekøbt (2025)</div>
+      <div class="metric-value">~7,90M</div>
+      <div class="metric-sub">~3,7% af udst. aktier (211,8M)</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Udst. aktier (ultimo 2025)</div>
+      <div class="metric-value blue">200,8M</div>
+      <div class="metric-sub">Ned fra 211,8M · −5,2% YoY</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Buyback Yield (TTM)</div>
+      <div class="metric-value green">4,55%</div>
+      <div class="metric-sub">+ udbytte EUR 2,80/aktie (2024)</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Total aktionæraflønning 2025</div>
+      <div class="metric-value green">~€1,1 mia.</div>
+      <div class="metric-sub">9,3% yield på ultimo-markedsværdi</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">2026 Udbytte</div>
+      <div class="metric-value amber">€0,00</div>
+      <div class="metric-sub">Bestyrelsen anbefaler intet udbytte</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Gns. tilbagekøbskurs</div>
+      <div class="metric-value">~SEK 680</div>
+      <div class="metric-sub">€500M / ~7,9M aktier · estimat</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Nuv. kurs vs. BB-kurs</div>
+      <div class="metric-value green" id="metric-discount">—</div>
+      <div class="metric-sub" id="metric-discount-sub">Beregnes ved kursdata</div>
+    </div>
+  </div>
+
+  <!-- VÆRDISKABELSE MODEL -->
+  <div class="section-header">Værdiskabelse — Net Buyback Model</div>
+  <div class="value-grid">
+    <div class="value-card">
+      <div class="value-card-title">FCF Yield &amp; Kapacitet</div>
+      <div class="value-row"><span class="value-row-label">EBITDA 2025</span><span class="value-row-value">€1.457M</span></div>
+      <div class="value-row"><span class="value-row-label">EBITDA-margin</span><span class="value-row-value">~66%</span></div>
+      <div class="value-row"><span class="value-row-label">CapEx 2025</span><span class="value-row-value">€135M</span></div>
+      <div class="value-row"><span class="value-row-label">Est. FCF 2025</span><span class="value-row-value positive">~€1.050M</span></div>
+      <div class="value-row"><span class="value-row-label">FCF Yield (markedsværdi)</span><span class="value-row-value positive">~9,1%</span></div>
+      <div class="value-row"><span class="value-row-label">Markedsværdi</span><span class="value-row-value" id="live-mcap">—</span></div>
+    </div>
+    <div class="value-card">
+      <div class="value-card-title">EPS-Accretion (Annulleringseffekt)</div>
+      <div class="value-row"><span class="value-row-label">EPS 2025 (rapporteret)</span><span class="value-row-value">€5,23</span></div>
+      <div class="value-row"><span class="value-row-label">Udst. aktier (ultimo 2025)</span><span class="value-row-value">200,8M</span></div>
+      <div class="value-row"><span class="value-row-label">Tilbagekøbte aktier (2025)</span><span class="value-row-value">~7,9M</span></div>
+      <div class="value-row"><span class="value-row-label">EPS-løft ved annullering</span><span class="value-row-value positive">+4,1%</span></div>
+      <div class="value-row"><span class="value-row-label">Indre værdi-effekt / aktie</span><span class="value-row-value positive">Positiv</span></div>
+      <div class="value-row"><span class="value-row-label">SBC-udvanding (est.)</span><span class="value-row-value negative">~0,3–0,5%</span></div>
+    </div>
+    <div class="value-card">
+      <div class="value-card-title">Net Buyback (Buyback − SBC)</div>
+      <div class="value-row"><span class="value-row-label">Brutto-tilbagekøb 2025</span><span class="value-row-value">~7,9M aktier</span></div>
+      <div class="value-row"><span class="value-row-label">SBC-udvanding (est.)</span><span class="value-row-value negative">~0,6–1,0M aktier</span></div>
+      <div class="value-row"><span class="value-row-label">Netto reduktion</span><span class="value-row-value positive">~6,9–7,3M aktier</span></div>
+      <div class="value-row"><span class="value-row-label">Netto buyback yield</span><span class="value-row-value positive">~3,4–3,6%</span></div>
+      <div class="value-row"><span class="value-row-label">Shares outstanding (YoY Δ)</span><span class="value-row-value positive">−5,2%</span></div>
+      <div class="value-row"><span class="value-row-label">Kumulativ reduktion (3 år)</span><span class="value-row-value highlight">~15%</span></div>
+    </div>
+  </div>
+
+  <!-- BUYBACK PROGRAMME TIMELINE -->
+  <div class="section-header">Tilbagekøbshistorik — Programmer</div>
+  <div class="table-wrapper"><div class="table-scroll">
+    <table>
+      <thead><tr><th>Program</th><th>Annonceret</th><th>Afsluttet</th><th class="right">Maks. beløb</th><th class="right">Aktier købt</th><th class="right">Status</th></tr></thead>
+      <tbody>
+        {program_rows}
+      </tbody>
+    </table>
+  </div></div>
+
+  <!-- WEEKLY LOG — DYNAMIC FROM data.json -->
+  <div class="section-header">Ugentlige tilbagekøb — Alle trancher ({num_announcements} registreret)</div>
+  <div class="table-wrapper"><div class="table-scroll">
+    <table>
+      <thead><tr><th>Periode</th><th class="right">Antal aktier</th><th class="right">Kumulativ beholdning</th><th>Note</th></tr></thead>
+      <tbody>
+        {tranche_rows}
+      </tbody>
+    </table>
+  </div></div>
+
+  <!-- 2026 OUTLOOK -->
+  <div class="section-header">2026 Kapitalallokering — Status</div>
+  <div class="value-grid">
+    <div class="value-card">
+      <div class="value-card-title">Bestyrelsens beslutning (18. mar 2026)</div>
+      <div class="value-row"><span class="value-row-label">Udbytte for 2025</span><span class="value-row-value negative">€0 · Intet udbytte foreslået</span></div>
+      <div class="value-row"><span class="value-row-label">Afvigelse fra rammeværk</span><span class="value-row-value" style="color:var(--accent-amber);">Ja — normalt ≥50% af nettooverskud</span></div>
+      <div class="value-row"><span class="value-row-label">Begrundelse</span><span class="value-row-value" style="color:var(--t3);font-size:11px;">"Udbytte er ikke den bedste vej til aktionærværdi"</span></div>
+      <div class="value-row"><span class="value-row-label">AGM 2026</span><span class="value-row-value highlight">24. april 2026</span></div>
+      <div class="value-row"><span class="value-row-label">Forventet nyt tilbagekøbsmandat</span><span class="value-row-value" style="color:var(--accent-amber);">Afventer opdatering</span></div>
+      <div class="value-row"><span class="value-row-label">EBITDA-margin-guidning 2026</span><span class="value-row-value">~66% (i linje med 2025)</span></div>
+    </div>
+    <div class="value-card">
+      <div class="value-card-title">Potentielt 2026-scenarie</div>
+      <div class="value-row"><span class="value-row-label">Forventet FCF 2026</span><span class="value-row-value positive">~€1.050–1.150M</span></div>
+      <div class="value-row"><span class="value-row-label">Sparet udbytte</span><span class="value-row-value positive">~€560M</span></div>
+      <div class="value-row"><span class="value-row-label">Samlet buyback-kapacitet</span><span class="value-row-value positive">€1.600M+</span></div>
+      <div class="value-row"><span class="value-row-label">Potentiel aktie-reduktion</span><span class="value-row-value positive">~12–15M aktier</span></div>
+      <div class="value-row"><span class="value-row-label">Potentiel annullerings-EPS-boost</span><span class="value-row-value positive">+6–8%</span></div>
+      <div class="value-row"><span class="value-row-label">Galaxy Gaming M&amp;A</span><span class="value-row-value" style="color:var(--accent-amber);">Afventer regulatorisk godkendelse</span></div>
+    </div>
+  </div>
+
+  <!-- NOTES -->
+  <div class="notes">
+    <div class="notes-title">Kilder &amp; Metodik</div>
+    <p>• Tilbagekøbsdata hentet automatisk fra <a href="https://view.news.eu.nasdaq.com" target="_blank">Nasdaq Nordic OAM</a> (primær regulatorisk kilde)</p>
+    <p>• Kursdata hentet live fra Yahoo Finance ved hvert pageload · Fallback: opdateret {last_updated}</p>
+    <p>• Værdiskabelsesmodel: FCF yield, EPS-accretion via annulleringseffekt, net buyback = buyback − SBC</p>
+    <p>• SBC-estimat baseret på incitamentsprogrammer (konservativt ~0,3–0,5% årlig udvanding)</p>
+    <p>• €500M program annonceret 10. feb 2025 · Afsluttet 8. dec 2025</p>
+    <p>• 18. mar 2026: Bestyrelsen foreslår intet udbytte for 2025 — afviger fra kapitalrammeværk</p>
+    <p>• Kumulativ aktie-reduktion 2023–2025: ~15% (211,8M → ~200,8M udestående)</p>
+  </div>
+
+  <div class="footer" id="footer-ts">
+    EVOLUTION AB BUYBACK TRACKER · {num_announcements} trancher · Sidst opdateret {last_updated}
+  </div>
+
+</div>
+
+<!-- LIVE PRICE SCRIPT -->
+<script>
+(async function fetchLivePrice() {{
+  const TICKER = 'EVO.ST';
+  const AVG_BB_PRICE = 680; // Estimeret gns. tilbagekøbskurs i SEK
+  const SHARES_OUT = 200840000;
+  const FALLBACK_PRICE = {current_price};
+
+  const elPrice = document.getElementById('live-price');
+  const elChange = document.getElementById('live-change');
+  const elDate = document.getElementById('live-date');
+  const elDiscount = document.getElementById('metric-discount');
+  const elDiscountSub = document.getElementById('metric-discount-sub');
+  const elMcap = document.getElementById('live-mcap');
+
+  function fmt(n) {{
+    return n.toLocaleString('da-DK', {{ minimumFractionDigits: 2, maximumFractionDigits: 2 }});
+  }}
+
+  function applyFallback() {{
+    if (FALLBACK_PRICE > 0) {{
+      elPrice.textContent = `SEK ${{fmt(FALLBACK_PRICE)}}`;
+      elDate.textContent = 'Forsinket · fra scraper';
+      const discount = ((FALLBACK_PRICE - AVG_BB_PRICE) / AVG_BB_PRICE) * 100;
+      elDiscount.textContent = `${{discount.toFixed(1)}}%`;
+      elDiscount.className = `metric-value ${{discount < 0 ? 'green' : 'negative'}}`;
+      elDiscountSub.textContent = `${{fmt(FALLBACK_PRICE)}} vs. ~${{AVG_BB_PRICE}} · fallback-kurs`;
+      const mcapB = (FALLBACK_PRICE * SHARES_OUT) / 1e9;
+      elMcap.textContent = `SEK ${{mcapB.toFixed(1)}} mia.`;
+    }} else {{
+      elPrice.textContent = 'SEK —';
+      elDate.textContent = 'Kurs utilgængelig';
+    }}
+  }}
+
+  try {{
+    // Yahoo Finance v8 chart API
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${{TICKER}}?range=5d&interval=1d`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    const meta = data.chart.result[0].meta;
+    const price = meta.regularMarketPrice;
+    const prevClose = meta.chartPreviousClose || meta.previousClose || price;
+    const change = price - prevClose;
+    const changePct = (change / prevClose) * 100;
+
+    elPrice.textContent = `SEK ${{fmt(price)}}`;
+    const sign = change >= 0 ? '+' : '';
+    elChange.textContent = `${{sign}}${{fmt(change)}} (${{sign}}${{changePct.toFixed(2)}}%)`;
+    elChange.className = `price-change ${{change >= 0 ? 'positive' : 'negative'}}`;
+
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('da-DK', {{ day: 'numeric', month: 'short', year: 'numeric' }});
+    const timeStr = now.toLocaleTimeString('da-DK', {{ hour: '2-digit', minute: '2-digit' }});
+    elDate.textContent = `${{dateStr}} ${{timeStr}} · Live`;
+
+    const discount = ((price - AVG_BB_PRICE) / AVG_BB_PRICE) * 100;
+    elDiscount.textContent = `${{discount.toFixed(1)}}%`;
+    elDiscount.className = `metric-value ${{discount < 0 ? 'green' : 'negative'}}`;
+    elDiscountSub.textContent = `${{fmt(price)}} vs. ~${{AVG_BB_PRICE}} · ${{discount < 0 ? 'rabat' : 'præmie'}} til cost basis`;
+
+    const mcapB = (price * SHARES_OUT) / 1e9;
+    elMcap.textContent = `SEK ${{mcapB.toFixed(1)}} mia.`;
+
+  }} catch (err) {{
+    console.warn('Live kurs fejlede, bruger fallback fra data.json', err);
+    applyFallback();
+  }}
+}})();
+</script>
+</body>
+</html>
+"""
+
+
+if __name__ == "__main__":
+    build()
