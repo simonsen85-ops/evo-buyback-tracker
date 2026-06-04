@@ -1,0 +1,49 @@
+{
+  "company": "Evolution AB (publ)",
+  "ticker": "EVO.ST",
+  "exchange": "Nasdaq Stockholm",
+  "total_shares": 199226613,
+  "currency": "SEK",
+  "current_price": 640.2,
+  "programs": [
+    {
+      "id": 1,
+      "name": "€400M (2023 AGM)",
+      "start": "2023-11-23",
+      "end": "2024-07-17",
+      "max_eur": 400000000,
+      "announced": "2023-11-23",
+      "closed_on": "2024-07-17"
+    },
+    {
+      "id": 2,
+      "name": "€400M (2024 AGM I)",
+      "start": "2024-07-18",
+      "end": "2024-10-31",
+      "max_eur": 400000000,
+      "announced": "2024-07-18",
+      "closed_on": "2024-10-31"
+    },
+    {
+      "id": 3,
+      "name": "€500M (2025)",
+      "start": "2025-02-10",
+      "end": "2025-12-08",
+      "max_eur": 500000000,
+      "announced": "2025-02-10",
+      "closed_on": "2025-12-08"
+    },
+    {
+      "id": 4,
+      "name": "€2 mia. (2026)",
+      "start": "2026-05-19",
+      "end": "2027-04-30",
+      "max_eur": 2000000000,
+      "announced": "2026-05-18",
+      "closed_on": null
+    }
+  ],
+  "announcements": [],
+  "last_updated": "2026-05-25T07:46:51.728924+00:00",
+  "nasdaq_daily_volumes": {}
+}
