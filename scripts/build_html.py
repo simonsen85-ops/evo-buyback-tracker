@@ -129,7 +129,7 @@ tr:hover td{background:rgba(16,185,129,.02)}
   <div class="chc"><h3>Treasury akkumulering <span>— % af 10%-cap</span></h3><div class="chw"><canvas id="ch2"></canvas></div></div>
   <div class="chc"><h3>Kumulativt forbrug <span>— SEK</span></h3><div class="chw"><canvas id="ch3"></canvas></div></div>
   <div class="chc"><h3>Handelsvolumen <span>— tilbagekøb vs. marked</span></h3><div class="chw"><canvas id="ch4"></canvas></div></div>
-  <div class="chc" style="grid-column:1/-1"><h3>Tilbagekøb som % af markedsvolumen <span>— ugentlig vs. 25% Safe Harbour</span></h3><div class="chw" style="height:200px"><canvas id="ch5"></canvas></div></div>
+  <div class="chc" style="grid-column:1/-1"><h3>Safe Harbour-udnyttelse <span>— faktisk køb vs. dagligt 25%-loft af 20-dages gns. volumen</span></h3><div class="chw" style="height:200px"><canvas id="ch5"></canvas></div></div>
 </div>
 <div class="tc">
   <div class="sh">Ugentligt køb og likviditet</div>
@@ -269,7 +269,7 @@ function render(){
       label:'% af 10%-cap',data:rows.map(r=>Math.round(r.capPct*10)/10),
       borderColor:'#10b981',backgroundColor:'rgba(16,185,129,.06)',borderWidth:2,fill:true,tension:.3,
       pointRadius:2.5,pointBackgroundColor:'#10b981',pct:true
-    }]},options:cO({y:{beginAtZero:true,max:100},yt:{callback:v=>v+'%'}})});
+    }]},options:cO({y:{beginAtZero:true,suggestedMax:Math.max(5, Math.ceil((rows[rows.length-1].capPct||0) * 1.8))},yt:{callback:v=>v+'%'}})});
 
     new Chart(document.getElementById('ch3'),{type:'line',data:{labels:lbl,datasets:[{
       label:'Forbrug',data:rows.map(r=>Math.round(r.aAmt)),
@@ -288,16 +288,19 @@ function render(){
       options:cO({y:{beginAtZero:true},lg:{display:hasMktVol,labels:{color:'#b0bac9',font:{family:'JetBrains Mono',size:10},boxWidth:10,padding:12}}})});
 
     if (hasMktVol){
+      // Safe Harbour utilization: faktisk købt / max tilladt (25% × 20-day ADV × handelsdage) × 100.
+      // The 25% rule is DAILY against 20-day ADV — utilization_pct (Tempo) is the legally correct
+      // compliance metric. 100% = exactly at the ceiling every trading day.
+      const utilData = rows.map(r=>r.util);
+      const utilColors = utilData.map(p=>p>100?'rgba(239,68,68,.6)':p>80?'rgba(245,158,11,.6)':'rgba(16,185,129,.5)');
+      const limitLine = utilData.map(()=>100);
+      // For reference: also show weekly % of volume (informational, not regulatory)
       const pctData = rows.map(r=>r.bPct);
-      const pctColors = pctData.map(p=>p>40?'rgba(239,68,68,.6)':p>20?'rgba(245,158,11,.6)':'rgba(16,185,129,.5)');
-      let cumSum=0;
-      const avgLine = pctData.map((p,i)=>{cumSum+=p;return Math.round(cumSum/(i+1)*10)/10});
-      const limitLine = pctData.map(()=>25);
       new Chart(document.getElementById('ch5'),{type:'bar',data:{labels:lbl,datasets:[
-        {label:'% af volumen',data:pctData,backgroundColor:pctColors,borderColor:pctColors.map(c=>c.replace(/[\d.]+\)$/,'0.8)')),borderWidth:1,borderRadius:2,pct:true,order:3},
-        {label:'Gennemsnit',data:avgLine,type:'line',borderColor:'#f8fafc',borderWidth:1.5,borderDash:[4,3],pointRadius:0,tension:.3,fill:false,pct:true,order:2},
-        {label:'25% Safe Harbour loft',data:limitLine,type:'line',borderColor:'#f59e0b',borderWidth:1.5,borderDash:[8,4],pointRadius:0,fill:false,pct:true,order:1}
-      ]},options:cO({y:{beginAtZero:true},yt:{callback:v=>v+'%'},
+        {label:'Safe Harbour-udnyttelse',data:utilData,backgroundColor:utilColors,borderColor:utilColors.map(c=>c.replace(/[\d.]+\)$/,'0.8)')),borderWidth:1,borderRadius:2,pct:true,order:3},
+        {label:'100% loft (25% × 20-d gns. ADV pr. dag)',data:limitLine,type:'line',borderColor:'#f59e0b',borderWidth:1.5,borderDash:[8,4],pointRadius:0,fill:false,pct:true,order:1},
+        {label:'% af ugens markedsvolumen',data:pctData,type:'line',borderColor:'#b0bac9',borderWidth:1.5,borderDash:[4,3],pointRadius:2,tension:.3,fill:false,pct:true,order:2}
+      ]},options:cO({y:{beginAtZero:true,suggestedMax:Math.max(120, Math.ceil(Math.max(...utilData) * 1.2))},yt:{callback:v=>v+'%'},
         lg:{display:true,labels:{color:'#b0bac9',font:{family:'JetBrains Mono',size:10},boxWidth:10,padding:12}}})});
     } else {
       const cv5=document.getElementById('ch5'); const ctx5=cv5.getContext('2d');
