@@ -95,14 +95,21 @@ tr:hover td{background:rgba(16,185,129,.02)}
   <div class="vc-n" id="mn"></div>
 </div>
 <div class="prog">
-  <div class="prog-top"><span class="sh" style="margin:0" id="pHdr">Programmer</span><span class="pct" id="pPct"></span></div>
+  <div class="prog-top">
+    <span class="sh" style="margin:0" id="pHdr">Programmer</span>
+    <select id="pSel" style="background:var(--bg3);color:var(--t1);border:1px solid var(--t4);border-radius:3px;padding:4px 8px;font-family:'JetBrains Mono',monospace;font-size:.7rem;cursor:pointer;margin-left:auto;margin-right:12px">
+      <option value="active">Aktivt program</option>
+      <option value="all">Alle programmer (samlet)</option>
+    </select>
+    <span class="pct" id="pPct"></span>
+  </div>
   <div class="prog-bar"><div class="prog-fill" id="pF"></div></div>
   <div class="prog-lbl"><span>0</span><span id="pL"></span><span id="pMax">—</span></div>
   <div id="pDetail" style="margin-top:8px;display:flex;gap:20px;flex-wrap:wrap;font-size:.65rem;color:var(--t2)"></div>
 </div>
 <div class="charts">
   <div class="chc"><h3>Kurs vs. tilbagekøbskurs <span>— SEK/aktie</span></h3><div class="chw"><canvas id="ch1"></canvas></div></div>
-  <div class="chc"><h3>Treasury akkumulering <span>— % af 10%-cap</span></h3><div class="chw"><canvas id="ch2"></canvas></div></div>
+  <div class="chc"><h3>Treasury akkumulering <span>— % af udestående aktier</span></h3><div class="chw"><canvas id="ch2"></canvas></div></div>
   <div class="chc"><h3>Kumulativt forbrug <span>— SEK</span></h3><div class="chw"><canvas id="ch3"></canvas></div></div>
   <div class="chc"><h3>Handelsvolumen <span>— tilbagekøb vs. marked</span></h3><div class="chw"><canvas id="ch4"></canvas></div></div>
   <div class="chc" style="grid-column:1/-1"><h3>Safe Harbour-udnyttelse <span>— faktisk køb vs. dagligt 25%-loft af 20-dages gns. volumen</span></h3><div class="chw" style="height:200px"><canvas id="ch5"></canvas></div></div>
@@ -117,7 +124,7 @@ tr:hover td{background:rgba(16,185,129,.02)}
 </div>
 </div>
 <script>
-const D = {"company":"Evolution AB (publ)","ticker":"EVO.ST","exchange":"Nasdaq Stockholm","total_shares":199226613,"currency":"SEK","current_price":702.6,"programs":[{"id":1,"name":"€400M (2023 AGM)","start":"2023-11-23","end":"2024-07-17","max_eur":400000000,"announced":"2023-11-23","closed_on":"2024-07-17"},{"id":2,"name":"€400M (2024 AGM I)","start":"2024-07-18","end":"2024-10-31","max_eur":400000000,"announced":"2024-07-18","closed_on":"2024-10-31"},{"id":3,"name":"€500M (2025)","start":"2025-02-10","end":"2025-12-08","max_eur":500000000,"announced":"2025-02-10","closed_on":"2025-12-08"},{"id":4,"name":"€2 mia. (2026)","start":"2026-05-19","end":"2027-04-30","max_eur":2000000000,"announced":"2026-05-18","closed_on":null}],"announcements":[{"uid":"evo-cision-c4352500","announcement_date":"2026-05-22","source":"cision_pdf","source_url":"https://mb.cision.com/Main/12069/4352500/4110059.pdf","period_start":"2026-05-19","period_end":"2026-05-22","week_shares":535802,"week_amount":380098515,"week_avg_price":709.4011,"acc_shares":535802,"acc_amount":380098515,"treasury_shares":535802,"total_shares_outstanding":199226613,"max_program_shares":19922661,"program_id":4,"daily_transactions":[{"date":"2026-05-19","shares":117000,"avg_price":720.4797,"amount":84296125},{"date":"2026-05-20","shares":133531,"avg_price":713.636,"amount":95292529},{"date":"2026-05-21","shares":140742,"avg_price":703.3448,"amount":98995784},{"date":"2026-05-22","shares":144529,"avg_price":702.3786,"amount":101514077}],"completed":false,"market_volume":4204792,"max_allowed_week":537924,"daily_volume_detail":[{"date":"2026-05-19","day_volume":1962796,"avg_20d":469755,"max_allowed":117439,"source":"nasdaq"},{"date":"2026-05-20","day_volume":885716,"avg_20d":536269,"max_allowed":134067,"source":"nasdaq"},{"date":"2026-05-21","day_volume":770947,"avg_20d":565231,"max_allowed":141308,"source":"nasdaq"},{"date":"2026-05-22","day_volume":585333,"avg_20d":580440,"max_allowed":145110,"source":"nasdaq"}],"avg_volume_20d":537924,"buyback_pct_of_volume":12.7,"utilization_pct":99.6},{"uid":"evo-cision-c4355598","announcement_date":"2026-05-29","source":"cision_pdf","source_url":"https://mb.cision.com/Main/12069/4355598/4124311.pdf","period_start":"2026-05-25","period_end":"2026-05-29","week_shares":692185,"week_amount":480583311,"week_avg_price":694.2989,"acc_shares":1227987,"acc_amount":860681826,"treasury_shares":1227987,"total_shares_outstanding":199226613,"max_program_shares":19922661,"program_id":4,"daily_transactions":[{"date":"2026-05-25","shares":137560,"avg_price":703.1479,"amount":96725025},{"date":"2026-05-26","shares":136992,"avg_price":699.9137,"amount":95882578},{"date":"2026-05-27","shares":135025,"avg_price":690.7533,"amount":93268964},{"date":"2026-05-28","shares":139974,"avg_price":684.5916,"amount":95825025},{"date":"2026-05-29","shares":142634,"avg_price":693.2549,"amount":98881719}],"completed":false,"market_volume":3970114,"max_allowed_week":695108,"daily_volume_detail":[{"date":"2026-05-25","day_volume":441243,"avg_20d":552451,"max_allowed":138113,"source":"nasdaq"},{"date":"2026-05-26","day_volume":526913,"avg_20d":550171,"max_allowed":137543,"source":"nasdaq"},{"date":"2026-05-27","day_volume":742934,"avg_20d":542835,"max_allowed":135709,"source":"nasdaq"},{"date":"2026-05-28","day_volume":587008,"avg_20d":562145,"max_allowed":140536,"source":"nasdaq"},{"date":"2026-05-29","day_volume":1672016,"avg_20d":572830,"max_allowed":143207,"source":"nasdaq"}],"avg_volume_20d":556086,"buyback_pct_of_volume":17.4,"utilization_pct":99.6}],"last_updated":"2026-06-04T09:08:45.014464+00:00","nasdaq_daily_volumes":{}};
+const D = {"company":"Evolution AB (publ)","ticker":"EVO.ST","exchange":"Nasdaq Stockholm","total_shares":199226613,"currency":"SEK","current_price":702.4,"programs":[{"id":1,"name":"€400M (2023 AGM)","start":"2023-11-23","end":"2024-07-17","max_eur":400000000,"announced":"2023-11-23","closed_on":"2024-07-17"},{"id":2,"name":"€400M (2024 AGM I)","start":"2024-07-18","end":"2024-10-31","max_eur":400000000,"announced":"2024-07-18","closed_on":"2024-10-31"},{"id":3,"name":"€500M (2025)","start":"2025-02-10","end":"2025-12-08","max_eur":500000000,"announced":"2025-02-10","closed_on":"2025-12-08"},{"id":4,"name":"€2 mia. (2026)","start":"2026-05-19","end":"2027-04-30","max_eur":2000000000,"announced":"2026-05-18","closed_on":null}],"announcements":[{"uid":"evo-cision-c4352500","announcement_date":"2026-05-22","source":"cision_pdf","source_url":"https://mb.cision.com/Main/12069/4352500/4110059.pdf","period_start":"2026-05-19","period_end":"2026-05-22","week_shares":535802,"week_amount":380098515,"week_avg_price":709.4011,"acc_shares":535802,"acc_amount":380098515,"treasury_shares":535802,"total_shares_outstanding":199226613,"max_program_shares":19922661,"program_id":4,"daily_transactions":[{"date":"2026-05-19","shares":117000,"avg_price":720.4797,"amount":84296125},{"date":"2026-05-20","shares":133531,"avg_price":713.636,"amount":95292529},{"date":"2026-05-21","shares":140742,"avg_price":703.3448,"amount":98995784},{"date":"2026-05-22","shares":144529,"avg_price":702.3786,"amount":101514077}],"completed":false,"market_volume":4204792,"max_allowed_week":537924,"daily_volume_detail":[{"date":"2026-05-19","day_volume":1962796,"avg_20d":469755,"max_allowed":117439,"source":"nasdaq"},{"date":"2026-05-20","day_volume":885716,"avg_20d":536269,"max_allowed":134067,"source":"nasdaq"},{"date":"2026-05-21","day_volume":770947,"avg_20d":565231,"max_allowed":141308,"source":"nasdaq"},{"date":"2026-05-22","day_volume":585333,"avg_20d":580440,"max_allowed":145110,"source":"nasdaq"}],"avg_volume_20d":537924,"buyback_pct_of_volume":12.7,"utilization_pct":99.6},{"uid":"evo-cision-c4355598","announcement_date":"2026-05-29","source":"cision_pdf","source_url":"https://mb.cision.com/Main/12069/4355598/4124311.pdf","period_start":"2026-05-25","period_end":"2026-05-29","week_shares":692185,"week_amount":480583311,"week_avg_price":694.2989,"acc_shares":1227987,"acc_amount":860681826,"treasury_shares":1227987,"total_shares_outstanding":199226613,"max_program_shares":19922661,"program_id":4,"daily_transactions":[{"date":"2026-05-25","shares":137560,"avg_price":703.1479,"amount":96725025},{"date":"2026-05-26","shares":136992,"avg_price":699.9137,"amount":95882578},{"date":"2026-05-27","shares":135025,"avg_price":690.7533,"amount":93268964},{"date":"2026-05-28","shares":139974,"avg_price":684.5916,"amount":95825025},{"date":"2026-05-29","shares":142634,"avg_price":693.2549,"amount":98881719}],"completed":false,"market_volume":3970114,"max_allowed_week":695108,"daily_volume_detail":[{"date":"2026-05-25","day_volume":441243,"avg_20d":552451,"max_allowed":138113,"source":"nasdaq"},{"date":"2026-05-26","day_volume":526913,"avg_20d":550171,"max_allowed":137543,"source":"nasdaq"},{"date":"2026-05-27","day_volume":742934,"avg_20d":542835,"max_allowed":135709,"source":"nasdaq"},{"date":"2026-05-28","day_volume":587008,"avg_20d":562145,"max_allowed":140536,"source":"nasdaq"},{"date":"2026-05-29","day_volume":1672016,"avg_20d":572830,"max_allowed":143207,"source":"nasdaq"}],"avg_volume_20d":556086,"buyback_pct_of_volume":17.4,"utilization_pct":99.6}],"last_updated":"2026-06-04T09:19:54.508618+00:00","nasdaq_daily_volumes":{}};
 const ANNS = (D.announcements||[]).slice().sort((a,b)=>(a.period_end||"").localeCompare(b.period_end||""));
 const PROGS = D.programs || [];
 const ACTIVE_PROG = PROGS.find(p=>!p.closed_on) || PROGS[PROGS.length-1];
@@ -143,6 +150,7 @@ function calc(){
       wS: a.week_shares||0, wA: a.week_avg_price||0, wAmt: a.week_amount||0,
       aS, aAmt, avg: avgPrice, treasury, totalOut, maxProg,
       capPct: maxProg>0 ? treasury/maxProg*100 : 0,
+      sharePct: totalOut>0 ? treasury/totalOut*100 : 0,
       mVol: a.market_volume||0, bPct: a.buyback_pct_of_volume||0,
       maxW: a.max_allowed_week||0, util: a.utilization_pct||0,
     });
@@ -178,7 +186,7 @@ function render(){
     {l:'Tilbagekøbt', v:fD(aS), s:(totalOut>0?(aS/totalOut*100).toFixed(2):'0')+'% af udstedte'},
     {l:'Investeret', v:'SEK '+fM(aAmtSek)+'M', s:'€'+(aAmtEur/1e6).toFixed(0)+'M · '+progUtilPct.toFixed(1)+'% af €2B'},
     {l:'Gns. købskurs', v:'SEK '+(avgPrice?f2(avgPrice):'—'), s:(disc>0?disc.toFixed(1)+'% over kurs':Math.abs(disc).toFixed(1)+'% under kurs')},
-    {l:'10% cap udnyttet', v:capPct.toFixed(1)+'%', s:fD(R?R.maxProg:0)+' aktier max', c:'color:var(--g1)'},
+    {l:'Andel af udestående', v:(R?R.sharePct:0).toFixed(2)+'%', s:'10%-cap: '+(R?R.maxProg:0).toLocaleString('da-DK')+' aktier', c:'color:var(--g1)'},
     {l:'EPS-løft (nu)', v:'+'+epsUpliftNow.toFixed(2)+'%', s:'ved fuld cap: +'+epsUpliftMax.toFixed(1)+'%', c:'color:var(--g2)'},
     {l:'€2B vs. mkt.værdi', v:progSizePctMcap.toFixed(1)+'%', s:'Implicit buyback yield', c:'color:var(--g3)'},
   ].map(k=>'<div class="kpi"><div class="l">'+k.l+'</div><div class="v" style="'+(k.c||'')+'">'+k.v+'</div><div class="s">'+k.s+'</div></div>').join('');
@@ -192,27 +200,63 @@ function render(){
   document.getElementById('mn').textContent =
     'EPS-løft = aktier_tilbagekøbt / (udstedte − tilbagekøbte). Baseret på €'+EPS_2025+' (FY25). 10%-cap = '+fD(R?R.maxProg:0)+' aktier (~'+(R?(R.maxProg/totalOut*100):0).toFixed(1)+'% af udstedte).';
 
-  const totalMaxEur = PROGS.reduce((s,p)=>s+p.max_eur,0);
-  let lifetimeEur = 0;
-  PROGS.forEach(p=>{ if (p.closed_on) lifetimeEur += p.max_eur; });
-  lifetimeEur += aAmtEur;
-  const totalPct = totalMaxEur>0 ? lifetimeEur/totalMaxEur*100 : 0;
-  document.getElementById('pHdr').textContent = 'Programmer — €'+(totalMaxEur/1e6).toLocaleString('da-DK')+'M total';
-  document.getElementById('pF').style.width = Math.min(totalPct,100)+'%';
-  document.getElementById('pPct').textContent = totalPct.toFixed(1)+'%';
-  document.getElementById('pL').textContent = '€'+(lifetimeEur/1e6).toFixed(0)+'M brugt';
-  document.getElementById('pMax').textContent = '€'+(totalMaxEur/1e6).toLocaleString('da-DK')+'M';
-
-  document.getElementById('pDetail').innerHTML = PROGS.map(p=>{
-    let used, pct;
-    if (p.closed_on) { used = p.max_eur; pct = 100; }
-    else if (ACTIVE_PROG && p.id === ACTIVE_PROG.id) { used = aAmtEur; pct = p.max_eur>0?used/p.max_eur*100:0; }
-    else { used = 0; pct = 0; }
-    const status = p.closed_on
-      ? '<span style="color:var(--t3)">Afsluttet</span>'
-      : (pct>=99.9 ? '<span style="color:var(--g3)">Afsluttet</span>' : '<span style="color:var(--g2)">Aktivt</span>');
-    return '<div>'+p.name+': €'+(used/1e6).toFixed(0)+'M / €'+(p.max_eur/1e6).toFixed(0)+'M ('+pct.toFixed(1)+'%) · '+status+'</div>';
-  }).join('');
+  // Progress bar — defaults to active program only.
+  // Dropdown lets user switch to lifetime aggregate view across all programs.
+  function renderProgress(mode){
+    if (mode === 'all'){
+      // Lifetime view: completed programs assumed 100% utilized + active progress
+      const totalMaxEur = PROGS.reduce((s,p)=>s+p.max_eur,0);
+      let lifetimeEur = 0;
+      PROGS.forEach(p=>{ if (p.closed_on) lifetimeEur += p.max_eur; });
+      lifetimeEur += aAmtEur;
+      const totalPct = totalMaxEur>0 ? lifetimeEur/totalMaxEur*100 : 0;
+      document.getElementById('pHdr').textContent = 'Programmer — €'+(totalMaxEur/1e6).toLocaleString('da-DK')+'M total';
+      document.getElementById('pF').style.width = Math.min(totalPct,100)+'%';
+      document.getElementById('pPct').textContent = totalPct.toFixed(1)+'%';
+      document.getElementById('pL').textContent = '€'+(lifetimeEur/1e6).toFixed(0)+'M brugt';
+      document.getElementById('pMax').textContent = '€'+(totalMaxEur/1e6).toLocaleString('da-DK')+'M';
+      document.getElementById('pDetail').innerHTML = PROGS.map(p=>{
+        let used, pct;
+        if (p.closed_on) { used = p.max_eur; pct = 100; }
+        else if (ACTIVE_PROG && p.id === ACTIVE_PROG.id) { used = aAmtEur; pct = p.max_eur>0?used/p.max_eur*100:0; }
+        else { used = 0; pct = 0; }
+        const status = p.closed_on
+          ? '<span style="color:var(--t3)">Afsluttet</span>'
+          : (pct>=99.9 ? '<span style="color:var(--g3)">Afsluttet</span>' : '<span style="color:var(--g2)">Aktivt</span>');
+        return '<div>'+p.name+': €'+(used/1e6).toFixed(0)+'M / €'+(p.max_eur/1e6).toFixed(0)+'M ('+pct.toFixed(1)+'%) · '+status+'</div>';
+      }).join('');
+    } else {
+      // Active program only (default) — the meaningful real-time deployment view
+      const p = ACTIVE_PROG;
+      if (!p){
+        document.getElementById('pHdr').textContent = 'Intet aktivt program';
+        document.getElementById('pF').style.width = '0%';
+        document.getElementById('pPct').textContent = '—';
+        document.getElementById('pL').textContent = '—';
+        document.getElementById('pMax').textContent = '—';
+        document.getElementById('pDetail').innerHTML = '';
+        return;
+      }
+      const used = aAmtEur;
+      const pct = p.max_eur>0 ? used/p.max_eur*100 : 0;
+      document.getElementById('pHdr').textContent = p.name + ' — annonceret ' + (p.announced||'—');
+      document.getElementById('pF').style.width = Math.min(pct,100)+'%';
+      document.getElementById('pPct').textContent = pct.toFixed(1)+'%';
+      document.getElementById('pL').textContent = '€'+(used/1e6).toFixed(0)+'M brugt · ' + fD(aS) + ' aktier';
+      document.getElementById('pMax').textContent = '€'+(p.max_eur/1e6).toLocaleString('da-DK')+'M';
+      // Show pace estimate: weeks since start + extrapolated completion
+      const startD = new Date(p.start);
+      const weeksRunning = Math.max(1, Math.round((Date.now() - startD.getTime()) / (7*24*3600*1000)));
+      const eurPerWeek = used / weeksRunning;
+      const weeksRemaining = eurPerWeek>0 ? Math.round((p.max_eur - used) / eurPerWeek) : 0;
+      const eta = weeksRemaining>0 ? new Date(Date.now() + weeksRemaining*7*24*3600*1000) : null;
+      document.getElementById('pDetail').innerHTML =
+        '<div>Tempo: €'+(eurPerWeek/1e6).toFixed(0)+'M/uge (gns. ' + weeksRunning + ' uge'+(weeksRunning!==1?'r':'')+')</div>' +
+        (eta ? '<div>Estimeret afslutning: '+eta.toLocaleDateString('da-DK',{month:'short',year:'numeric'})+' (' + weeksRemaining + ' uger tilbage)</div>' : '');
+    }
+  }
+  renderProgress('active');
+  document.getElementById('pSel').addEventListener('change', e => renderProgress(e.target.value));
 
   const lbl = rows.map(r=>new Date(r.d).toLocaleDateString('da-DK',{day:'numeric',month:'short'}));
   const cO=(x)=>{x=x||{};return{responsive:true,maintainAspectRatio:false,
@@ -242,10 +286,10 @@ function render(){
     ]},options:cO({lg:{display:true,labels:{color:'#b0bac9',font:{family:'JetBrains Mono',size:10},boxWidth:10,padding:12}}})});
 
     new Chart(document.getElementById('ch2'),{type:'line',data:{labels:lbl,datasets:[{
-      label:'% af 10%-cap',data:rows.map(r=>Math.round(r.capPct*10)/10),
+      label:'% af udestående',data:rows.map(r=>Math.round(r.sharePct*100)/100),
       borderColor:'#10b981',backgroundColor:'rgba(16,185,129,.06)',borderWidth:2,fill:true,tension:.3,
       pointRadius:2.5,pointBackgroundColor:'#10b981',pct:true
-    }]},options:cO({y:{beginAtZero:true,suggestedMax:Math.max(5, Math.ceil((rows[rows.length-1].capPct||0) * 1.8))},yt:{callback:v=>v+'%'}})});
+    }]},options:cO({y:{beginAtZero:true,suggestedMax:Math.max(2, Math.ceil((rows[rows.length-1].sharePct||0) * 1.8 * 10)/10)},yt:{callback:v=>v+'%'}})});
 
     new Chart(document.getElementById('ch3'),{type:'line',data:{labels:lbl,datasets:[{
       label:'Forbrug',data:rows.map(r=>Math.round(r.aAmt)),
