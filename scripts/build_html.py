@@ -119,14 +119,21 @@ tr:hover td{background:rgba(16,185,129,.02)}
   <div class="vc-n" id="mn"></div>
 </div>
 <div class="prog">
-  <div class="prog-top"><span class="sh" style="margin:0" id="pHdr">Programmer</span><span class="pct" id="pPct"></span></div>
+  <div class="prog-top">
+    <span class="sh" style="margin:0" id="pHdr">Programmer</span>
+    <select id="pSel" style="background:var(--bg3);color:var(--t1);border:1px solid var(--t4);border-radius:3px;padding:4px 8px;font-family:'JetBrains Mono',monospace;font-size:.7rem;cursor:pointer;margin-left:auto;margin-right:12px">
+      <option value="active">Aktivt program</option>
+      <option value="all">Alle programmer (samlet)</option>
+    </select>
+    <span class="pct" id="pPct"></span>
+  </div>
   <div class="prog-bar"><div class="prog-fill" id="pF"></div></div>
   <div class="prog-lbl"><span>0</span><span id="pL"></span><span id="pMax">—</span></div>
   <div id="pDetail" style="margin-top:8px;display:flex;gap:20px;flex-wrap:wrap;font-size:.65rem;color:var(--t2)"></div>
 </div>
 <div class="charts">
   <div class="chc"><h3>Kurs vs. tilbagekøbskurs <span>— SEK/aktie</span></h3><div class="chw"><canvas id="ch1"></canvas></div></div>
-  <div class="chc"><h3>Treasury akkumulering <span>— % af 10%-cap</span></h3><div class="chw"><canvas id="ch2"></canvas></div></div>
+  <div class="chc"><h3>Treasury akkumulering <span>— % af udestående aktier</span></h3><div class="chw"><canvas id="ch2"></canvas></div></div>
   <div class="chc"><h3>Kumulativt forbrug <span>— SEK</span></h3><div class="chw"><canvas id="ch3"></canvas></div></div>
   <div class="chc"><h3>Handelsvolumen <span>— tilbagekøb vs. marked</span></h3><div class="chw"><canvas id="ch4"></canvas></div></div>
   <div class="chc" style="grid-column:1/-1"><h3>Safe Harbour-udnyttelse <span>— faktisk køb vs. dagligt 25%-loft af 20-dages gns. volumen</span></h3><div class="chw" style="height:200px"><canvas id="ch5"></canvas></div></div>
@@ -167,6 +174,7 @@ function calc(){
       wS: a.week_shares||0, wA: a.week_avg_price||0, wAmt: a.week_amount||0,
       aS, aAmt, avg: avgPrice, treasury, totalOut, maxProg,
       capPct: maxProg>0 ? treasury/maxProg*100 : 0,
+      sharePct: totalOut>0 ? treasury/totalOut*100 : 0,
       mVol: a.market_volume||0, bPct: a.buyback_pct_of_volume||0,
       maxW: a.max_allowed_week||0, util: a.utilization_pct||0,
     });
@@ -202,7 +210,7 @@ function render(){
     {l:'Tilbagekøbt', v:fD(aS), s:(totalOut>0?(aS/totalOut*100).toFixed(2):'0')+'% af udstedte'},
     {l:'Investeret', v:'SEK '+fM(aAmtSek)+'M', s:'€'+(aAmtEur/1e6).toFixed(0)+'M · '+progUtilPct.toFixed(1)+'% af €2B'},
     {l:'Gns. købskurs', v:'SEK '+(avgPrice?f2(avgPrice):'—'), s:(disc>0?disc.toFixed(1)+'% over kurs':Math.abs(disc).toFixed(1)+'% under kurs')},
-    {l:'10% cap udnyttet', v:capPct.toFixed(1)+'%', s:fD(R?R.maxProg:0)+' aktier max', c:'color:var(--g1)'},
+    {l:'Andel af udestående', v:(R?R.sharePct:0).toFixed(2)+'%', s:'10%-cap: '+(R?R.maxProg:0).toLocaleString('da-DK')+' aktier', c:'color:var(--g1)'},
     {l:'EPS-løft (nu)', v:'+'+epsUpliftNow.toFixed(2)+'%', s:'ved fuld cap: +'+epsUpliftMax.toFixed(1)+'%', c:'color:var(--g2)'},
     {l:'€2B vs. mkt.værdi', v:progSizePctMcap.toFixed(1)+'%', s:'Implicit buyback yield', c:'color:var(--g3)'},
   ].map(k=>'<div class="kpi"><div class="l">'+k.l+'</div><div class="v" style="'+(k.c||'')+'">'+k.v+'</div><div class="s">'+k.s+'</div></div>').join('');
@@ -216,27 +224,63 @@ function render(){
   document.getElementById('mn').textContent =
     'EPS-løft = aktier_tilbagekøbt / (udstedte − tilbagekøbte). Baseret på €'+EPS_2025+' (FY25). 10%-cap = '+fD(R?R.maxProg:0)+' aktier (~'+(R?(R.maxProg/totalOut*100):0).toFixed(1)+'% af udstedte).';
 
-  const totalMaxEur = PROGS.reduce((s,p)=>s+p.max_eur,0);
-  let lifetimeEur = 0;
-  PROGS.forEach(p=>{ if (p.closed_on) lifetimeEur += p.max_eur; });
-  lifetimeEur += aAmtEur;
-  const totalPct = totalMaxEur>0 ? lifetimeEur/totalMaxEur*100 : 0;
-  document.getElementById('pHdr').textContent = 'Programmer — €'+(totalMaxEur/1e6).toLocaleString('da-DK')+'M total';
-  document.getElementById('pF').style.width = Math.min(totalPct,100)+'%';
-  document.getElementById('pPct').textContent = totalPct.toFixed(1)+'%';
-  document.getElementById('pL').textContent = '€'+(lifetimeEur/1e6).toFixed(0)+'M brugt';
-  document.getElementById('pMax').textContent = '€'+(totalMaxEur/1e6).toLocaleString('da-DK')+'M';
-
-  document.getElementById('pDetail').innerHTML = PROGS.map(p=>{
-    let used, pct;
-    if (p.closed_on) { used = p.max_eur; pct = 100; }
-    else if (ACTIVE_PROG && p.id === ACTIVE_PROG.id) { used = aAmtEur; pct = p.max_eur>0?used/p.max_eur*100:0; }
-    else { used = 0; pct = 0; }
-    const status = p.closed_on
-      ? '<span style="color:var(--t3)">Afsluttet</span>'
-      : (pct>=99.9 ? '<span style="color:var(--g3)">Afsluttet</span>' : '<span style="color:var(--g2)">Aktivt</span>');
-    return '<div>'+p.name+': €'+(used/1e6).toFixed(0)+'M / €'+(p.max_eur/1e6).toFixed(0)+'M ('+pct.toFixed(1)+'%) · '+status+'</div>';
-  }).join('');
+  // Progress bar — defaults to active program only.
+  // Dropdown lets user switch to lifetime aggregate view across all programs.
+  function renderProgress(mode){
+    if (mode === 'all'){
+      // Lifetime view: completed programs assumed 100% utilized + active progress
+      const totalMaxEur = PROGS.reduce((s,p)=>s+p.max_eur,0);
+      let lifetimeEur = 0;
+      PROGS.forEach(p=>{ if (p.closed_on) lifetimeEur += p.max_eur; });
+      lifetimeEur += aAmtEur;
+      const totalPct = totalMaxEur>0 ? lifetimeEur/totalMaxEur*100 : 0;
+      document.getElementById('pHdr').textContent = 'Programmer — €'+(totalMaxEur/1e6).toLocaleString('da-DK')+'M total';
+      document.getElementById('pF').style.width = Math.min(totalPct,100)+'%';
+      document.getElementById('pPct').textContent = totalPct.toFixed(1)+'%';
+      document.getElementById('pL').textContent = '€'+(lifetimeEur/1e6).toFixed(0)+'M brugt';
+      document.getElementById('pMax').textContent = '€'+(totalMaxEur/1e6).toLocaleString('da-DK')+'M';
+      document.getElementById('pDetail').innerHTML = PROGS.map(p=>{
+        let used, pct;
+        if (p.closed_on) { used = p.max_eur; pct = 100; }
+        else if (ACTIVE_PROG && p.id === ACTIVE_PROG.id) { used = aAmtEur; pct = p.max_eur>0?used/p.max_eur*100:0; }
+        else { used = 0; pct = 0; }
+        const status = p.closed_on
+          ? '<span style="color:var(--t3)">Afsluttet</span>'
+          : (pct>=99.9 ? '<span style="color:var(--g3)">Afsluttet</span>' : '<span style="color:var(--g2)">Aktivt</span>');
+        return '<div>'+p.name+': €'+(used/1e6).toFixed(0)+'M / €'+(p.max_eur/1e6).toFixed(0)+'M ('+pct.toFixed(1)+'%) · '+status+'</div>';
+      }).join('');
+    } else {
+      // Active program only (default) — the meaningful real-time deployment view
+      const p = ACTIVE_PROG;
+      if (!p){
+        document.getElementById('pHdr').textContent = 'Intet aktivt program';
+        document.getElementById('pF').style.width = '0%';
+        document.getElementById('pPct').textContent = '—';
+        document.getElementById('pL').textContent = '—';
+        document.getElementById('pMax').textContent = '—';
+        document.getElementById('pDetail').innerHTML = '';
+        return;
+      }
+      const used = aAmtEur;
+      const pct = p.max_eur>0 ? used/p.max_eur*100 : 0;
+      document.getElementById('pHdr').textContent = p.name + ' — annonceret ' + (p.announced||'—');
+      document.getElementById('pF').style.width = Math.min(pct,100)+'%';
+      document.getElementById('pPct').textContent = pct.toFixed(1)+'%';
+      document.getElementById('pL').textContent = '€'+(used/1e6).toFixed(0)+'M brugt · ' + fD(aS) + ' aktier';
+      document.getElementById('pMax').textContent = '€'+(p.max_eur/1e6).toLocaleString('da-DK')+'M';
+      // Show pace estimate: weeks since start + extrapolated completion
+      const startD = new Date(p.start);
+      const weeksRunning = Math.max(1, Math.round((Date.now() - startD.getTime()) / (7*24*3600*1000)));
+      const eurPerWeek = used / weeksRunning;
+      const weeksRemaining = eurPerWeek>0 ? Math.round((p.max_eur - used) / eurPerWeek) : 0;
+      const eta = weeksRemaining>0 ? new Date(Date.now() + weeksRemaining*7*24*3600*1000) : null;
+      document.getElementById('pDetail').innerHTML =
+        '<div>Tempo: €'+(eurPerWeek/1e6).toFixed(0)+'M/uge (gns. ' + weeksRunning + ' uge'+(weeksRunning!==1?'r':'')+')</div>' +
+        (eta ? '<div>Estimeret afslutning: '+eta.toLocaleDateString('da-DK',{month:'short',year:'numeric'})+' (' + weeksRemaining + ' uger tilbage)</div>' : '');
+    }
+  }
+  renderProgress('active');
+  document.getElementById('pSel').addEventListener('change', e => renderProgress(e.target.value));
 
   const lbl = rows.map(r=>new Date(r.d).toLocaleDateString('da-DK',{day:'numeric',month:'short'}));
   const cO=(x)=>{x=x||{};return{responsive:true,maintainAspectRatio:false,
@@ -266,10 +310,10 @@ function render(){
     ]},options:cO({lg:{display:true,labels:{color:'#b0bac9',font:{family:'JetBrains Mono',size:10},boxWidth:10,padding:12}}})});
 
     new Chart(document.getElementById('ch2'),{type:'line',data:{labels:lbl,datasets:[{
-      label:'% af 10%-cap',data:rows.map(r=>Math.round(r.capPct*10)/10),
+      label:'% af udestående',data:rows.map(r=>Math.round(r.sharePct*100)/100),
       borderColor:'#10b981',backgroundColor:'rgba(16,185,129,.06)',borderWidth:2,fill:true,tension:.3,
       pointRadius:2.5,pointBackgroundColor:'#10b981',pct:true
-    }]},options:cO({y:{beginAtZero:true,suggestedMax:Math.max(5, Math.ceil((rows[rows.length-1].capPct||0) * 1.8))},yt:{callback:v=>v+'%'}})});
+    }]},options:cO({y:{beginAtZero:true,suggestedMax:Math.max(2, Math.ceil((rows[rows.length-1].sharePct||0) * 1.8 * 10)/10)},yt:{callback:v=>v+'%'}})});
 
     new Chart(document.getElementById('ch3'),{type:'line',data:{labels:lbl,datasets:[{
       label:'Forbrug',data:rows.map(r=>Math.round(r.aAmt)),
