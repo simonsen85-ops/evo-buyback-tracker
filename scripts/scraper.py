@@ -4,21 +4,19 @@ Evolution AB — Buyback Scraper (orchestrator).
 
 Thin coordinator following the same pattern as FED and IMB trackers:
 
-  sources.cision_pdf.CisionPDFSource    — PRIMARY: downloads PDFs from
-                                          mb.cision.com (the official MAR
-                                          Article 5 disclosure documents)
-                                          via URLs discovered on
-                                          evolution.com/investors
-  sources.volume.compute                — Safe Harbour calculations
-  sources.volume.nasdaq / yahoo         — volume data providers
+  sources.evolution_html.EvolutionHTMLSource    — PRIMARY: parses HTML from
+                                                  evolution.com/investors/
+                                                  financial-publications/press-releases
+  sources.volume.compute                        — Safe Harbour calculations
+  sources.volume.nasdaq / yahoo                 — volume data providers
 
 Flow:
   1. Load data.json
-  2. Discover buyback PDF URLs from evolution.com IR listing
-  3. Download each PDF, extract text with pypdf, parse
-  4. Dedup & merge into data.json (UID = evo-cision-c{cision_id})
+  2. Fetch listing pages, filter to buyback press releases
+  3. Fetch each detail HTML page, parse content
+  4. Dedup & merge into data.json (UID = evo-mfn-{slug})
   5. Fetch daily volume data (Nasdaq Nordic primary, Yahoo fallback)
-  6. Compute Safe Harbour metrics (25% rule)
+  6. Compute Safe Harbour metrics (25% daily rule)
   7. Fetch current price (Yahoo)
   8. Save data.json
 
@@ -34,7 +32,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from sources.base import merge_announcements
-from sources.cision_pdf import CisionPDFSource
+from sources.evolution_html import EvolutionHTMLSource
 from sources.volume.compute import (
     build_daily_volume_dict,
     compute_safe_harbour_metrics,
@@ -47,22 +45,17 @@ from sources.volume.yahoo import fetch_yahoo_current_price
 # ============================================================
 DATA_FILE = Path(__file__).parent.parent / "data.json"
 
-# Company identity
 COMPANY_NAME = "Evolution AB (publ)"
 UID_PREFIX = "evo"
 YAHOO_TICKER = "EVO.ST"
 
-# Nasdaq Nordic instrument ID for EVO.ST — used by the volume API.
-# Find/verify via Chrome DevTools on https://www.nasdaq.com/european-market-activity/shares/evo
 NASDAQ_INSTRUMENT_ID = "TX1757078"
 NASDAQ_REFERER = (
     "https://www.nasdaq.com/european-market-activity/shares/evo?id=SSE107867"
 )
 
-# Share count (post-cancellation, from new programme announcement 18 May 2026)
 TOTAL_SHARES = 199226613
 
-# Buyback programs — UPDATE when new programs are announced
 PROGRAMS = [
     {
         "id": 1,
@@ -95,7 +88,7 @@ PROGRAMS = [
         "id": 4,
         "name": "€2 mia. (2026)",
         "start": "2026-05-19",
-        "end": "2027-04-30",  # Anticipated by next AGM; updates when closed
+        "end": "2027-04-30",
         "max_eur": 2000000000,
         "announced": "2026-05-18",
         "closed_on": None,
@@ -107,9 +100,8 @@ PROGRAMS = [
 # Data load/save
 # ============================================================
 def load_data() -> dict:
-    """Load data.json, or return a fresh empty structure."""
     if DATA_FILE.exists():
-        with open(DATA_FILE, "r") as f:
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
     return {
         "company": COMPANY_NAME,
@@ -124,9 +116,8 @@ def load_data() -> dict:
 
 
 def save_data(data: dict) -> None:
-    """Persist data.json."""
     data["last_updated"] = datetime.now(timezone.utc).isoformat()
-    with open(DATA_FILE, "w") as f:
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
     print(f"Saved {len(data['announcements'])} announcements to {DATA_FILE}")
 
@@ -135,14 +126,11 @@ def save_data(data: dict) -> None:
 # Announcement fetching
 # ============================================================
 def fetch_all_announcements(data: dict) -> int:
-    """
-    Fetch from configured sources in priority order, merge into data['announcements'].
-    Returns number of new announcements added.
-    """
     sources = [
-        CisionPDFSource(
+        EvolutionHTMLSource(
             uid_prefix=UID_PREFIX,
             programs=PROGRAMS,
+            max_pages=3,
         ),
     ]
 
@@ -168,10 +156,7 @@ def fetch_all_announcements(data: dict) -> int:
 # Cross-program rollup of acc_amount
 # ============================================================
 def recompute_program_accumulators(data: dict) -> None:
-    """
-    Recompute acc_amount per program by summing weekly amounts in chronological order.
-    (The source PR sometimes omits acc_amount, so we compute it from week_amount.)
-    """
+    """Recompute acc_amount per program by summing weekly amounts chronologically."""
     by_program: dict[int, int] = {}
     sorted_anns = sorted(data["announcements"], key=lambda a: a.get("period_start", ""))
     for a in sorted_anns:
@@ -195,7 +180,6 @@ def main():
     data = load_data()
     print(f"Existing announcements: {len(data['announcements'])}")
 
-    # Always refresh config (in case manually edited)
     data["company"] = COMPANY_NAME
     data["ticker"] = YAHOO_TICKER
     data["exchange"] = "Nasdaq Stockholm"
@@ -203,15 +187,12 @@ def main():
     data["total_shares"] = TOTAL_SHARES
     data["programs"] = PROGRAMS
 
-    # 1. Fetch announcements
     print("\nFetching announcements...")
     new_count = fetch_all_announcements(data)
     data["announcements"].sort(key=lambda a: a.get("announcement_date", ""))
 
-    # 2. Recompute program-level accumulators
     recompute_program_accumulators(data)
 
-    # 3. Volume + Safe Harbour
     daily_vol, source_map = build_daily_volume_dict(
         data,
         instrument_id=NASDAQ_INSTRUMENT_ID,
@@ -220,14 +201,12 @@ def main():
     )
     compute_safe_harbour_metrics(data["announcements"], daily_vol, source_map)
 
-    # 4. Current price
     print("\nFetching current price...")
     price = fetch_yahoo_current_price(YAHOO_TICKER)
     if price:
         data["current_price"] = price
         print(f"  Current price: {price} SEK")
 
-    # 5. Save
     save_data(data)
 
     print(f"\nDone. {new_count} new announcement(s) added.")

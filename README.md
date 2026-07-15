@@ -16,8 +16,8 @@ evo-buyback-tracker/
 │   └── sources/
 │       ├── __init__.py
 │       ├── base.py                  # Announcement dataclass + ABC + merge
-│       ├── parsing.py               # Shared HTML/text/PDF parsers
-│       ├── cision_pdf.py            # PRIMARY: downloads PDFs from mb.cision.com
+│       ├── parsing.py               # Shared HTML/text parsers
+│       ├── evolution_html.py        # PRIMARY: evolution.com press release HTML
 │       └── volume/
 │           ├── compute.py           # Safe Harbour 25% rule calcs
 │           ├── nasdaq.py            # Nasdaq Nordic volume API
@@ -30,26 +30,20 @@ evo-buyback-tracker/
 
 ## Source choice (first-principles, verified)
 
-For Evolution AB specifically:
+**History:** Evolution used Cision as MAR disclosure agent until July 2026,
+then migrated to MFN. This changed both the listing URL and PDF hosting:
 
-1. **PDFs at mb.cision.com** are the official MAR Article 5 regulatory
-   disclosure documents (Evolution's Cision customer ID = `12069`).
-2. **evolution.com/investors/press-releases** lists ALL buyback PDFs
-   with direct links to mb.cision.com.
+| Era | Listing | PDFs |
+|---|---|---|
+| Until Jul 2026 | `/investors/press-releases/` | `mb.cision.com/Main/12069/{id}/{att}.pdf` |
+| From Jul 2026 | `/investors/financial-publications/press-releases/` | `storage.mfn.se/{uuid}/{slug}.pdf` |
 
-The scraper discovers PDF URLs from evolution.com, downloads each PDF,
-and extracts text with `pypdf` for parsing.
+**Current approach:** The scraper parses Evolution's own server-rendered
+press release pages directly (no PDF download needed). Detail pages contain
+the full text and a structured HTML table with daily transactions.
 
-**Why not the Cision newsroom HTML?** It works, but has Cloudflare bot
-detection that occasionally blocks automated fetches. The PDFs are the
-canonical regulatory document anyway.
-
-**Why not the Nasdaq News API?** Verified empirically — it only carries
-issuer reports + market notices, not weekly Article 5 buybacks.
-
-**Why not Finansinspektionen's OAM?** Sweden's OAM is primarily for MAR
-Article 17 inside information and major shareholding notifications, not
-weekly Article 5 buybacks. It's also an ASP.NET form with no API.
+Old announcements in data.json keep their `evo-cision-c{id}` UIDs;
+new ones use `evo-mfn-{slug}`.
 
 ## Active programmes
 
