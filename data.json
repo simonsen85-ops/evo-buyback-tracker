@@ -4,7 +4,7 @@
   "exchange": "Nasdaq Stockholm",
   "total_shares": 199226613,
   "currency": "SEK",
-  "current_price": 735.8,
+  "current_price": 741.8,
   "programs": [
     {
       "id": 1,
@@ -1555,8 +1555,100 @@
       "avg_volume_20d": 818456,
       "buyback_pct_of_volume": 23.3,
       "utilization_pct": 99.5
+    },
+    {
+      "uid": "evo-mfn-acquisitions-of-own-shares-in-evolution-ab-publ-5",
+      "announcement_date": "2026-08-07",
+      "source": "evolution_html",
+      "source_url": "https://storage.mfn.se/b5cee2c3-8e8f-48cc-8152-53e0c7a3f24d/acquisitions-of-own-shares-in-evolution-ab-publ.pdf",
+      "period_start": "2026-08-03",
+      "period_end": "2026-08-07",
+      "week_shares": 1039620,
+      "week_amount": 762930031,
+      "week_avg_price": 733.8547,
+      "acc_shares": 10818256,
+      "acc_amount": 10895618483,
+      "treasury_shares": 10818256,
+      "total_shares_outstanding": 199226613,
+      "max_program_shares": 19922661,
+      "program_id": 4,
+      "daily_transactions": [
+        {
+          "date": "2026-08-03",
+          "shares": 207007,
+          "avg_price": 730.7172,
+          "amount": 151263575
+        },
+        {
+          "date": "2026-08-04",
+          "shares": 208036,
+          "avg_price": 734.7244,
+          "amount": 152849125
+        },
+        {
+          "date": "2026-08-05",
+          "shares": 209043,
+          "avg_price": 741.8748,
+          "amount": 155083734
+        },
+        {
+          "date": "2026-08-06",
+          "shares": 209360,
+          "avg_price": 728.1899,
+          "amount": 152453837
+        },
+        {
+          "date": "2026-08-07",
+          "shares": 206174,
+          "avg_price": 733.748,
+          "amount": 151279760
+        }
+      ],
+      "completed": false,
+      "market_volume": 3191102,
+      "max_allowed_week": 1043797,
+      "daily_volume_detail": [
+        {
+          "date": "2026-08-03",
+          "day_volume": 697766,
+          "avg_20d": 831354,
+          "max_allowed": 207838,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2026-08-04",
+          "day_volume": 702958,
+          "avg_20d": 835488,
+          "max_allowed": 208872,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2026-08-05",
+          "day_volume": 684429,
+          "avg_20d": 839533,
+          "max_allowed": 209883,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2026-08-06",
+          "day_volume": 646456,
+          "avg_20d": 840805,
+          "max_allowed": 210201,
+          "source": "nasdaq"
+        },
+        {
+          "date": "2026-08-07",
+          "day_volume": 459493,
+          "avg_20d": 828011,
+          "max_allowed": 207003,
+          "source": "nasdaq"
+        }
+      ],
+      "avg_volume_20d": 835038,
+      "buyback_pct_of_volume": 32.6,
+      "utilization_pct": 99.6
     }
   ],
-  "last_updated": "2026-08-07T17:14:17.680867+00:00",
+  "last_updated": "2026-08-10T17:22:33.461663+00:00",
   "nasdaq_daily_volumes": {}
 }
