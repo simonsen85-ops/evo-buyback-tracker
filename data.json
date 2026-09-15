@@ -4,7 +4,7 @@
   "exchange": "Nasdaq Stockholm",
   "total_shares": 199226613,
   "currency": "SEK",
-  "current_price": 891.8,
+  "current_price": 890.0,
   "programs": [
     {
       "id": 1,
@@ -2109,6 +2109,6 @@
       "utilization_pct": 98.7
     }
   ],
-  "last_updated": "2026-09-14T20:22:11.415418+00:00",
+  "last_updated": "2026-09-15T19:45:19.931041+00:00",
   "nasdaq_daily_volumes": {}
 }
