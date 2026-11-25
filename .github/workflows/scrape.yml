@@ -12,11 +12,8 @@ permissions:
   id-token: write
 
 jobs:
-  scrape-and-deploy:
+  scrape:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -54,6 +51,17 @@ jobs:
         with:
           path: '.'
 
+  # Deploy runs as its own job (GitHub's recommended Pages layout). Deploying in
+  # the same job as the upload intermittently failed with "No artifacts named
+  # github-pages were found": the deploy looked for the artifact before GitHub
+  # had registered it.
+  deploy:
+    needs: scrape
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
