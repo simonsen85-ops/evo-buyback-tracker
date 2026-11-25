@@ -419,6 +419,7 @@ function render(){
 }
 render();
 </script>
+<script data-goatcounter="https://evo-tracker.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>"""
 
